@@ -1,13 +1,13 @@
 package com.sourcecode.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,13 +18,10 @@ public class Request {
     @Column(columnDefinition = "text")
     private String content ;
 
-    @ManyToOne( fetch = FetchType.LAZY)
-    @JoinColumn(name = "useraccount_id")
-    @JsonIgnoreProperties("request")
+    @ManyToOne( fetch = FetchType.LAZY )
     private UserAccount userAccount ;
 
-    @OneToMany( mappedBy = "request" , fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("request")
+    @OneToMany( mappedBy = "request" , fetch = FetchType.LAZY , orphanRemoval = true)
     private Set<Response> responses = new HashSet<>();
 
     public Request(){}

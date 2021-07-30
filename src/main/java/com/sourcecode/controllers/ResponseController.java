@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @CrossOrigin(origins = "http://localhost:3000/")
-@Controller
+@RestController
 public class ResponseController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class ResponseController {
     private ResponseService responseService;
 
     @PostMapping("/newresponse/{id}")
-    public ResponseEntity<Response> addNewResponse(@RequestBody Response response, @PathVariable Long id){
+    public Response addNewResponse(@RequestBody Response response, @PathVariable Long id){
         Request request = requestService.findRequest(id);
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -40,35 +40,15 @@ public class ResponseController {
 
         response = responseService.createResponse(response);
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return response;
     }
 
     @GetMapping("/getresponses/{id}")
-    public ResponseEntity<Set<Response> > getAllResponses(@PathVariable Long id){
+    public Set<Response> getAllResponses(@PathVariable Long id){
         Request request = requestService.findRequest(id);
 
-        return new ResponseEntity<Set<Response>>(request.getResponses(), HttpStatus.ACCEPTED);
+        return request.getResponses();
     }
 
-    @PostMapping("/testresponse/{id}")
-    public ResponseEntity<Response> test(@RequestParam String content, @PathVariable Long id){
-        Request request = requestService.findRequest(id);
-        Response response= new Response(content);
-
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        response.setUserAccount(userAccountService.findUserAccount(userDetails.getUsername()));
-
-        response.setRequest(request);
-
-        response = responseService.createResponse(response);
-
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
-
-    @GetMapping("/formres")
-    public String getForm(){
-        return "formres";
-    }
 
 }

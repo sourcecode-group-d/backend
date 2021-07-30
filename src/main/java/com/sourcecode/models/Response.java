@@ -1,10 +1,11 @@
 package com.sourcecode.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Response {
 
     @Id
@@ -15,15 +16,14 @@ public class Response {
     @Column(columnDefinition = "text")
     private String content;
 
+    @JsonIgnore
+    @ManyToOne( fetch = FetchType.LAZY )
+    private UserAccount userAccount;
+
+    @JsonIgnore
     @ManyToOne( fetch = FetchType.LAZY)
-    @JoinColumn(name = "request_id")
-    @JsonIgnoreProperties("response")
     private Request request;
 
-    @ManyToOne( fetch = FetchType.LAZY )
-    @JoinColumn(name = "test_id")
-    @JsonIgnoreProperties("response")
-    private UserAccount userAccount;
 
     public Response(){}
 

@@ -30,18 +30,6 @@ public class RequestController {
         return new ResponseEntity<>(request1 , HttpStatus.CREATED);
     }
 
-    @GetMapping("/request")
-    public String getForm(){
-        return "requestForm" ;
-    }
 
-    @PostMapping("/test")
-    public ResponseEntity<Request> createNewRequest(@RequestParam String type , @RequestParam String content){
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
-        Request request = new Request(type , content);
-        request.setUserAccount(userAccount);
-        requestService.createRequest(request);
-        return new ResponseEntity<>(request, HttpStatus.CREATED);
-    }
+
 }
