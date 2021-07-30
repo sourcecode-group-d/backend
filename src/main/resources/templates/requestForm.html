@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Request Form</title>
+</head>
+<body>
+<!--  <form th:action="@{/newrequest}" method="post" th:object="${request}">-->
+<!--    <input type="text" th:field="*{type}" />-->
+<!--    <br>-->
+<!--    <input type="text" th:field="*{content}" />-->
+<!--    <br>-->
+<!--    <input type="submit" value="Submit" />-->
+<!--  </form>-->
+
+  <form method="post" th:action="@{/test}" >
+      <input id="firstName" placeholder="type" required type="text" name="type" />
+      <input id="lastName" placeholder="content" required type="text" name="content" />
+
+      <input type="submit" value="Create Request">
+  </form>
+</body>
+</html>
