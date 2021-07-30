@@ -4,4 +4,6 @@ import com.sourcecode.models.Request;
 
 public interface RequestService {
     Request createRequest(Request request);
+
+    Request findRequest(Long id);
 }
