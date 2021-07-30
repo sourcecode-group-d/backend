@@ -10,8 +10,14 @@ public class RequestServiceImp implements RequestService {
     @Autowired
     private RequestRepository requestRepository ;
 
+
     @Override
     public Request createRequest(Request request) {
         return requestRepository.save(request);
+    }
+
+    @Override
+    public Request findRequest(Long id) {
+        return requestRepository.findById(id).orElseThrow();
     }
 }

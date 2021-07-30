@@ -29,6 +29,10 @@ public class UserAccount implements UserDetails {
     @JsonIgnoreProperties("userAccount")
     private Set<Request> requests = new HashSet<>();
 
+    @OneToMany( mappedBy = "userAccount" , fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("userAccount")
+    private Set<Response> responses= new HashSet<>();
+
     public UserAccount(){}
 
     public UserAccount(String username, String password) {
@@ -59,6 +63,8 @@ public class UserAccount implements UserDetails {
         return requests;
     }
 
+    public Set<Response> getResponses() { return responses; }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -74,6 +80,7 @@ public class UserAccount implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
