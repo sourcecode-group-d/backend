@@ -24,6 +24,12 @@ public class AccountUserController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder ;
 
+    /**
+     *
+     * @param userAccount
+     * to create a UserAccount and save it in the DB
+     * @return
+     */
     @PostMapping("/signup")
     public UserAccount createUserAccount(@RequestBody UserAccount userAccount){
         userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
@@ -33,6 +39,10 @@ public class AccountUserController {
         return userAccount ;
     }
 
+    /**
+     * it will return the UserAccount object that is currently logged in
+     * @return
+     */
     @GetMapping("/profile")
     public ResponseEntity<UserAccount> getUserAccount(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -40,6 +50,11 @@ public class AccountUserController {
         return new ResponseEntity<>(userAccount , HttpStatus.ACCEPTED) ;
     }
 
+    /**
+     *
+     * @param id this param should be the the useraccount that the currently logged in user want to follow
+     * @return  it will return a list of the following of the useraccount that currently logged in
+     */
     @PostMapping("/following/{id}")
     public List<UserAccount> addFollowing(@PathVariable Long id){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -51,6 +66,10 @@ public class AccountUserController {
         return userAccountLoggedIn.getFollowing();
     }
 
+    /**
+     *
+     * @return it will return the list for the followers of the currently logged in useraccount
+     */
     @GetMapping("/followers")
     public List<UserAccount> getFollwers(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
