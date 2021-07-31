@@ -12,7 +12,9 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators ;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","requests","responses"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer","handler","responses"})
 public class UserAccount implements UserDetails {
 
     @Id
