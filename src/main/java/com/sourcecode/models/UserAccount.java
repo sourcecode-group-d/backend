@@ -1,7 +1,6 @@
 package com.sourcecode.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,9 +8,11 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
+import com.fasterxml.jackson.annotation.ObjectIdGenerators ;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class UserAccount implements UserDetails {
 
     @Id
@@ -26,12 +27,10 @@ public class UserAccount implements UserDetails {
     private String password ;
 
     @OneToMany(fetch =FetchType.LAZY , mappedBy = "userAccount")
-    @JsonIgnoreProperties("userAccount")
-    private Set<Request> requests = new HashSet<>();
+    private List<Request> requests ;
 
-    @OneToMany( mappedBy = "userAccount" , fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("userAccount")
-    private Set<Response> responses= new HashSet<>();
+    @OneToMany( fetch = FetchType.LAZY , mappedBy = "userAccount" , orphanRemoval = true )
+    private List<Response> responses ;
 
     public UserAccount(){}
 
@@ -59,11 +58,11 @@ public class UserAccount implements UserDetails {
         return lastName;
     }
 
-    public Set<Request> getRequests() {
+    public List<Request> getRequests() {
         return requests;
     }
 
-    public Set<Response> getResponses() { return responses; }
+    public List<Response> getResponses() { return responses; }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;

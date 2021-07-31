@@ -6,17 +6,14 @@ import com.sourcecode.infrastructure.services.UserAccountService;
 import com.sourcecode.models.Request;
 import com.sourcecode.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000/")
-@Controller
+@RestController
 public class ResponseController {
 
     @Autowired
@@ -28,8 +25,8 @@ public class ResponseController {
     @Autowired
     private ResponseService responseService;
 
-    @PostMapping("/newresponse/{id}")
-    public ResponseEntity<Response> addNewResponse(@RequestBody Response response, @PathVariable Long id){
+    @PostMapping("/response/{id}")
+    public Response addNewResponse(@RequestBody Response response, @PathVariable Long id){
         Request request = requestService.findRequest(id);
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -40,35 +37,20 @@ public class ResponseController {
 
         response = responseService.createResponse(response);
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return response;
     }
 
-    @GetMapping("/getresponses/{id}")
-    public ResponseEntity<Set<Response> > getAllResponses(@PathVariable Long id){
+    @GetMapping("/response/{id}")
+    public List<Response> getAllResponses(@PathVariable Long id){
         Request request = requestService.findRequest(id);
 
-        return new ResponseEntity<Set<Response>>(request.getResponses(), HttpStatus.ACCEPTED);
+        return request.getResponses();
     }
 
-    @PostMapping("/testresponse/{id}")
-    public ResponseEntity<Response> test(@RequestParam String content, @PathVariable Long id){
-        Request request = requestService.findRequest(id);
-        Response response= new Response(content);
-
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        response.setUserAccount(userAccountService.findUserAccount(userDetails.getUsername()));
-
-        response.setRequest(request);
-
-        response = responseService.createResponse(response);
-
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    @DeleteMapping("/response/{id}")
+    public Response deleteResponse(@PathVariable Long id){
+        return responseService.deleteResponse(id);
     }
 
-    @GetMapping("/formres")
-    public String getForm(){
-        return "formres";
-    }
 
 }

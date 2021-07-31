@@ -1,13 +1,13 @@
 package com.sourcecode.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,14 +18,11 @@ public class Request {
     @Column(columnDefinition = "text")
     private String content ;
 
-    @ManyToOne( fetch = FetchType.LAZY)
-    @JoinColumn(name = "useraccount_id")
-    @JsonIgnoreProperties("request")
+    @ManyToOne( fetch = FetchType.LAZY )
     private UserAccount userAccount ;
 
-    @OneToMany( mappedBy = "request" , fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("request")
-    private Set<Response> responses = new HashSet<>();
+    @OneToMany( mappedBy = "request" , fetch = FetchType.LAZY , orphanRemoval = true)
+    private List<Response> responses ;
 
     public Request(){}
 
@@ -50,7 +47,7 @@ public class Request {
         return userAccount;
     }
 
-    public Set<Response> getResponses() { return responses; }
+    public List<Response> getResponses() { return responses; }
 
     public void setType(String type) {
         this.type = type;
@@ -64,5 +61,5 @@ public class Request {
         this.userAccount = userAccount;
     }
 
-    public void setResponses(Set<Response> responses) { this.responses = responses; }
+    public void setResponses(List<Response> responses) { this.responses = responses; }
 }

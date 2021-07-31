@@ -14,10 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 
-@Controller
+@RestController
 public class AccountUserController {
 
     @Autowired
@@ -26,12 +27,12 @@ public class AccountUserController {
     private BCryptPasswordEncoder passwordEncoder ;
 
     @PostMapping("/signup")
-    public ResponseEntity<UserAccount> createUserAccount(@RequestBody UserAccount userAccount){
+    public UserAccount createUserAccount(@RequestBody UserAccount userAccount){
         userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
         userAccount = userAccountService.createUserAccount(userAccount);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userAccount , null , new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<UserAccount>(userAccount , HttpStatus.CREATED) ;
+        return userAccount ;
     }
 
     @GetMapping("/profile")
