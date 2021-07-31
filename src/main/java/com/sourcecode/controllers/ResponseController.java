@@ -10,6 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000/")
@@ -35,16 +37,25 @@ public class ResponseController {
 
         response.setRequest(request);
 
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String createdAt = localDateTime.format(dateTimeFormatter);
+        response.setCreatedAt(createdAt);
         response = responseService.createResponse(response);
 
         return response;
     }
 
-    @GetMapping("/response/{id}")
-    public List<Response> getAllResponses(@PathVariable Long id){
-        Request request = requestService.findRequest(id);
+    @GetMapping("/response/request/{reqId}")
+    public List<Response> getAllResponsesForSpecificReq(@PathVariable Long reqId){
+        Request request = requestService.findRequest(reqId);
 
         return request.getResponses();
+    }
+
+    @GetMapping("/response/{id}")
+    public Response getResponse(@PathVariable Long id){
+        return responseService.findResponse(id);
     }
 
     @DeleteMapping("/response/{id}")
@@ -61,5 +72,12 @@ public class ResponseController {
         responseService.createResponse(updated);
 
         return updated;
+    }
+
+    @PostMapping("/response/likes/{id}")
+    public Response addLike(@PathVariable Long id){
+        Response response = responseService.findResponse(id);
+        response.addLike();
+        return responseService.createResponse(response);
     }
 }

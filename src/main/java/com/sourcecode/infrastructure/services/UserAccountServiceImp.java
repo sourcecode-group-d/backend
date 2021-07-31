@@ -19,4 +19,9 @@ public class UserAccountServiceImp implements UserAccountService {
     public UserAccount findUserAccount(String username) {
         return userAccountRepository.findUserAccountByUsername(username);
     }
+
+    @Override
+    public UserAccount findUserAccount(Long id) {
+        return userAccountRepository.findById(id).orElseThrow();
+    }
 }

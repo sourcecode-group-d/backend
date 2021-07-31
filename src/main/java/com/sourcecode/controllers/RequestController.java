@@ -11,8 +11,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Set;
+
 
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
@@ -28,6 +30,10 @@ public class RequestController {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
         request.setUserAccount(userAccount);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String createdAt = localDateTime.format(dateTimeFormatter);
+        request.setCreatedAt(createdAt);
         request = requestService.createRequest(request);
         return new ResponseEntity<>(request , HttpStatus.CREATED) ;
     }
@@ -35,6 +41,11 @@ public class RequestController {
     @GetMapping("/request")
     public List<Request> getAllRequests(){
         return requestService.getAllRequest();
+    }
+
+    @GetMapping("/request/{id}")
+    public Request getRequest(@PathVariable Long id){
+        return requestService.findRequest(id);
     }
 
     @DeleteMapping("/request/{id}")
@@ -50,6 +61,14 @@ public class RequestController {
 
         requestService.createRequest(updated);
         return updated;
+    }
+
+    @PostMapping("/request/likes/{reqId}")
+    public Request addLike(@PathVariable Long reqId){
+        Request request = requestService.findRequest(reqId);
+        request.addLike();
+        requestService.createRequest(request);
+        return request ;
     }
 
 }

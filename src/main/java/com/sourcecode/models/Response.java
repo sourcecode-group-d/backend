@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.*;
 import javax.persistence.*;
 
 @Entity
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler","request","userAccount"})
 public class Response {
 
@@ -17,6 +16,8 @@ public class Response {
     @Column(columnDefinition = "text")
     private String content;
 
+    private String createdAt ;
+
     @JsonIgnore
     @ManyToOne( fetch = FetchType.LAZY )
     private UserAccount userAccount;
@@ -24,6 +25,8 @@ public class Response {
     @JsonIgnore
     @ManyToOne( fetch = FetchType.LAZY)
     private Request request;
+
+    private Integer LikesCounter ;
 
 
     public Response(){}
@@ -40,14 +43,33 @@ public class Response {
         return content;
     }
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
     public Request getRequest() {
         return request;
+    }
+
+    public Integer getLikesCounter() {
+        return LikesCounter;
     }
 
     public UserAccount getUserAccount() { return userAccount; }
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Integer addLike(){
+        if(this.LikesCounter == null) this.LikesCounter = 0 ;
+        this.LikesCounter++ ;
+        return this.LikesCounter;
+    }
+
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     public void setRequest(Request request) {
