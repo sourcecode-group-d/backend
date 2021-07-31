@@ -12,9 +12,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators ;
 
 @Entity
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","requests","responses"})
-//@JsonIgnoreProperties({"hibernateLazyInitializer","handler","responses"})
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","requests","responses" , "followers" , "following"})
 public class UserAccount implements UserDetails {
 
     @Id
@@ -28,11 +26,28 @@ public class UserAccount implements UserDetails {
     private String username ;
     private String password ;
 
+    private String imageUrl ;
+
+    @Column(columnDefinition = "text")
+    private String bio ;
+
     @OneToMany(fetch =FetchType.LAZY , mappedBy = "userAccount")
     private List<Request> requests ;
 
     @OneToMany( fetch = FetchType.LAZY , mappedBy = "userAccount" , orphanRemoval = true )
     private List<Response> responses ;
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "useraccount_useraccount",
+            joinColumns = {@JoinColumn(name = "from_id")},
+            inverseJoinColumns = {@JoinColumn(name = "to_id")}
+    )
+    public List<UserAccount> following;
+
+    @ManyToMany(mappedBy = "following", fetch = FetchType.EAGER)
+    public List<UserAccount> followers;
 
     public UserAccount(){}
 
@@ -66,6 +81,32 @@ public class UserAccount implements UserDetails {
 
     public List<Response> getResponses() { return responses; }
 
+    public List<UserAccount> getFollowing() {
+        return following;
+    }
+
+    public List<UserAccount> getFollowers() {
+        return followers;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public List<UserAccount> addFollowing(UserAccount userAccount){
+        this.following.add(userAccount);
+        return this.following ;
+    }
+
+    public List<UserAccount> addFollower(UserAccount userAccount){
+        this.followers.add(userAccount);
+        return this.followers ;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -82,6 +123,13 @@ public class UserAccount implements UserDetails {
         this.password = password;
     }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

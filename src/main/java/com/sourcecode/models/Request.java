@@ -3,11 +3,9 @@ package com.sourcecode.models;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.List;
 
 @Entity
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler","responses","userAccount"})
 public class Request {
     @Id
@@ -19,11 +17,16 @@ public class Request {
     @Column(columnDefinition = "text")
     private String content ;
 
+    private String createdAt ;
+
+    private Integer LikesCounter ;
+
     @ManyToOne( fetch = FetchType.LAZY )
     private UserAccount userAccount ;
 
     @OneToMany( mappedBy = "request" , fetch = FetchType.LAZY , orphanRemoval = true)
     private List<Response> responses ;
+
 
     public Request(){}
 
@@ -44,6 +47,10 @@ public class Request {
         return id;
     }
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
     public UserAccount getUserAccount() {
         return userAccount;
     }
@@ -54,8 +61,25 @@ public class Request {
         this.type = type;
     }
 
+
+    public Integer addLike(){
+        if(this.LikesCounter == null) this.LikesCounter = 0 ;
+        this.LikesCounter++ ;
+        return this.LikesCounter;
+    }
+
+
+
+    public Integer getLikesCounter() {
+        return LikesCounter;
+    }
+
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     public void setUserAccount(UserAccount userAccount) {

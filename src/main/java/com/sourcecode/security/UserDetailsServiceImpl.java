@@ -1,6 +1,7 @@
 package com.sourcecode.security;
 
 import com.sourcecode.infrastructure.UserAccountRepository;
+import com.sourcecode.models.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +16,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userAccountRepository.findUserAccountByUsername(username);
+        UserAccount userAccount = userAccountRepository.findUserAccountByUsername(username);
+        if (userAccount == null)
+            throw new UsernameNotFoundException(username + " NOT FOUND!") ;
+        return userAccount ;
     }
 }
