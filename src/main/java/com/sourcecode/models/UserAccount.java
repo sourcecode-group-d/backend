@@ -28,6 +28,8 @@ public class UserAccount implements UserDetails {
 
     private String imageUrl ;
 
+    private String dataOfBirth ;
+
     @Column(columnDefinition = "text")
     private String bio ;
 
@@ -97,6 +99,10 @@ public class UserAccount implements UserDetails {
         return bio;
     }
 
+    public String getDataOfBirth() {
+        return dataOfBirth;
+    }
+
     public List<UserAccount> addFollowing(UserAccount userAccount){
         this.following.add(userAccount);
         return this.following ;
@@ -129,6 +135,10 @@ public class UserAccount implements UserDetails {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public void setDataOfBirth(String dataOfBirth) {
+        this.dataOfBirth = dataOfBirth;
     }
 
     @Override
