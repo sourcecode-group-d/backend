@@ -42,4 +42,14 @@ public class RequestController {
         return requestService.deleteRequest(id);
     }
 
+    @PutMapping("/request/{id}")
+    public Request updateRequest(@PathVariable Long id, @RequestBody Request request ){
+        Request updated = requestService.findRequest(id);
+
+        updated.setContent(request.getContent());
+
+        requestService.createRequest(updated);
+        return updated;
+    }
+
 }

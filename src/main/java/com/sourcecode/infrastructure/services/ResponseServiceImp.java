@@ -22,4 +22,9 @@ public class ResponseServiceImp implements ResponseService {
         responseRepository.deleteById(id);
         return response;
     }
+
+    @Override
+    public Response findResponse(Long id) {
+        return responseRepository.findById(id).orElseThrow();
+    }
 }

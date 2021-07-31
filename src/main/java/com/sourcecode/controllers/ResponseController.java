@@ -52,5 +52,14 @@ public class ResponseController {
         return responseService.deleteResponse(id);
     }
 
+    @PutMapping("/response/{id}")
+    public Response updateResponse (@PathVariable Long id , @RequestBody Response response){
+        Response updated = responseService.findResponse(id);
 
+        updated.setContent(response.getContent());
+
+        responseService.createResponse(updated);
+
+        return updated;
+    }
 }

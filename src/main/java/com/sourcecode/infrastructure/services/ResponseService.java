@@ -7,4 +7,6 @@ public interface ResponseService {
     Response createResponse(Response response);
 
     Response deleteResponse(Long id);
+
+    Response findResponse(Long id);
 }
