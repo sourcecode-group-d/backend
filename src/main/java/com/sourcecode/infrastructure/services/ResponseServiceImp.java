@@ -15,4 +15,11 @@ public class ResponseServiceImp implements ResponseService {
     public Response createResponse(Response response) {
         return responseRepository.save(response);
     }
+
+    @Override
+    public Response deleteResponse(Long id) {
+        Response response = responseRepository.findById(id).orElseThrow();
+        responseRepository.deleteById(id);
+        return response;
+    }
 }

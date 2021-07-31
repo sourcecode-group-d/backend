@@ -9,11 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Set;
+
 @CrossOrigin(origins = "http://localhost:3000/")
-@Controller
+@RestController
 public class RequestController {
 
     @Autowired
@@ -21,15 +23,23 @@ public class RequestController {
     @Autowired
     private UserAccountService userAccountService ;
 
-    @PostMapping("/newrequest")
-    public ResponseEntity<Request> createNewRequest(@RequestBody Request request1){
+    @PostMapping("/request")
+    public ResponseEntity<Request> createNewRequest(@RequestBody Request request){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
-        request1.setUserAccount(userAccount);
-        request1 = requestService.createRequest(request1);
-        return new ResponseEntity<>(request1 , HttpStatus.CREATED);
+        request.setUserAccount(userAccount);
+        request = requestService.createRequest(request);
+        return new ResponseEntity<>(request , HttpStatus.CREATED) ;
     }
 
+    @GetMapping("/request")
+    public List<Request> getAllRequests(){
+        return requestService.getAllRequest();
+    }
 
+    @DeleteMapping("/request/{id}")
+    public Request deleteRequest(@PathVariable Long id){
+        return requestService.deleteRequest(id);
+    }
 
 }

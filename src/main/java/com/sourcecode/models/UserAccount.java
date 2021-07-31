@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.ObjectIdGenerators ;
 
@@ -27,10 +27,10 @@ public class UserAccount implements UserDetails {
     private String password ;
 
     @OneToMany(fetch =FetchType.LAZY , mappedBy = "userAccount")
-    private Set<Request> requests = new HashSet<>();
+    private List<Request> requests ;
 
     @OneToMany( fetch = FetchType.LAZY , mappedBy = "userAccount" , orphanRemoval = true )
-    private Set<Response> responses= new HashSet<>();
+    private List<Response> responses ;
 
     public UserAccount(){}
 
@@ -58,11 +58,11 @@ public class UserAccount implements UserDetails {
         return lastName;
     }
 
-    public Set<Request> getRequests() {
+    public List<Request> getRequests() {
         return requests;
     }
 
-    public Set<Response> getResponses() { return responses; }
+    public List<Response> getResponses() { return responses; }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;

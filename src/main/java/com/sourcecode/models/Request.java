@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -22,7 +22,7 @@ public class Request {
     private UserAccount userAccount ;
 
     @OneToMany( mappedBy = "request" , fetch = FetchType.LAZY , orphanRemoval = true)
-    private Set<Response> responses = new HashSet<>();
+    private List<Response> responses ;
 
     public Request(){}
 
@@ -47,7 +47,7 @@ public class Request {
         return userAccount;
     }
 
-    public Set<Response> getResponses() { return responses; }
+    public List<Response> getResponses() { return responses; }
 
     public void setType(String type) {
         this.type = type;
@@ -61,5 +61,5 @@ public class Request {
         this.userAccount = userAccount;
     }
 
-    public void setResponses(Set<Response> responses) { this.responses = responses; }
+    public void setResponses(List<Response> responses) { this.responses = responses; }
 }
