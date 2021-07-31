@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators ;
 @Entity
 //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler","requests","responses"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer","handler","responses"})
 public class UserAccount implements UserDetails {
 
     @Id
@@ -40,7 +41,7 @@ public class UserAccount implements UserDetails {
         this.password = password;
     }
 
-    public UserAccount(String username, String password , String firstName, String lastName) {
+    public UserAccount(String firstName, String lastName, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
