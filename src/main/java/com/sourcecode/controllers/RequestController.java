@@ -9,10 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -98,4 +100,23 @@ public class RequestController {
         requestService.createRequest(request);
         return request ;
     }
+
+
+    @GetMapping("/feeds")
+            public List<Request> followingsRequests (){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserAccount user = userAccountService.findUserAccount(userDetails.getUsername());
+       List <UserAccount> followingAcc = user.getFollowing();
+       List<Request> followingReq = new ArrayList<>();
+       for ( UserAccount followingPerson : followingAcc)
+       {
+          for (Request oneRequest : followingPerson.getRequests())
+          {
+              followingReq.add(oneRequest);
+          }
+       }
+        return  followingReq;
+    }
+
+
 }
