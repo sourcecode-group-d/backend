@@ -12,10 +12,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
+//@CrossOrigin(origins = "http://localhost:3000/")
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class AccountUserController {
 
@@ -24,22 +29,75 @@ public class AccountUserController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder ;
 
-    @PostMapping("/signup")
-    public UserAccount createUserAccount(@RequestBody UserAccount userAccount){
-        userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
+    @GetMapping("/")
+    public String slash(){
+        return "Hello :D";
+    }
+
+//    @PostMapping("/signup")
+//    public ResponseEntity<UserAccount> createUserAccount(String username,
+//                                                       String password,
+//                                                       String firstName,
+//                                                       String lastName,
+//                                                       Date dateOfBirth,
+//                                                       String bio){
+//
+//
+//        UserAccount userAccount = new UserAccount(
+//                username,
+//                passwordEncoder.encode(password),
+//                firstName,
+//                lastName,
+//                dateOfBirth,
+//                bio
+//        );
+//        userAccount = userAccountService.createUserAccount(userAccount);
+//        Authentication authentication = new UsernamePasswordAuthenticationToken(userAccount , null , new ArrayList<>());
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        return new ResponseEntity<>(userAccount,HttpStatus.ACCEPTED) ;
+//    }
+
+
+    @RequestMapping("/signup")
+    public void createUserAccount( String username,
+                                     String password,
+                                     String firstName,
+                                     String lastName,
+                                     Date dateOfBirth,
+                                     String bio, HttpServletResponse response) throws IOException {
+
+
+        UserAccount userAccount = new UserAccount(
+                username,
+                passwordEncoder.encode(password),
+                firstName,
+                lastName,
+                dateOfBirth,
+                bio
+        );
         userAccount = userAccountService.createUserAccount(userAccount);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userAccount , null , new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return userAccount ;
+        response.sendRedirect("http://localhost:3000/profile");
     }
-
+    /**
+     * it will return the UserAccount object that is currently logged in
+     * @return
+     */
     @GetMapping("/profile")
-    public ResponseEntity<UserAccount> getUserAccount(){
+    public List<UserAccount> getUserAccount(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
-        return new ResponseEntity<>(userAccount , HttpStatus.ACCEPTED) ;
+        List<UserAccount> users=new ArrayList<>();
+        users.add(userAccount);
+        return users;
     }
 
+    /**
+     *
+     * @param id this param should be the the useraccount that the currently logged in user want to follow
+     * @return  it will return a list of the following of the useraccount that currently logged in
+     */
     @PostMapping("/following/{id}")
     public List<UserAccount> addFollowing(@PathVariable Long id){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -50,6 +108,10 @@ public class AccountUserController {
         return userAccountLoggedIn.getFollowing();
     }
 
+    /**
+     *
+     * @return it will return the list for the followers of the currently logged in useraccount
+     */
     @GetMapping("/followers")
     public List<UserAccount> getFollwers(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
