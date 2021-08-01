@@ -61,6 +61,7 @@ public class AccountUserController {
      * @return
      */
     @GetMapping("/profile")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<UserAccount> getUserAccount(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
@@ -91,7 +92,7 @@ public class AccountUserController {
     public List<UserAccount> getFollwers(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
-
+        SecurityContextHolder.getContext().getAuthentication();
         return userAccount.getFollowers() ;
     }
 

@@ -103,4 +103,17 @@ public class ResponseController {
         response.addLike();
         return responseService.createResponse(response);
     }
+
+    /**
+     *
+     * @param id of the response that you want to dislike it
+     * @return the response object
+     */
+    @PostMapping("/response/dislikes/{id}")
+    public Response disLike(@PathVariable Long id){
+        Response response = responseService.findResponse(id);
+        response.dislike();
+        response = responseService.createResponse(response);
+        return response ;
+    }
 }
