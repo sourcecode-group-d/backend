@@ -54,7 +54,7 @@ public class RequestController {
 
     /**
      *
-     * @param id of the request the you want
+     * @param id of the request that you want
      * @return it will return this request object
      */
     @GetMapping("/request/{id}")
@@ -81,9 +81,7 @@ public class RequestController {
     @PutMapping("/request/{id}")
     public Request updateRequest(@PathVariable Long id, @RequestBody Request request ){
         Request updated = requestService.findRequest(id);
-
         updated.setContent(request.getContent());
-
         requestService.createRequest(updated);
         return updated;
     }
@@ -100,5 +98,4 @@ public class RequestController {
         requestService.createRequest(request);
         return request ;
     }
-
 }

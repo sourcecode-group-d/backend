@@ -24,4 +24,11 @@ public class UserAccountServiceImp implements UserAccountService {
     public UserAccount findUserAccount(Long id) {
         return userAccountRepository.findById(id).orElseThrow();
     }
+
+    @Override
+    public UserAccount deleteUserAccount(String username) {
+        UserAccount userAccount = userAccountRepository.findUserAccountByUsername(username);
+        userAccountRepository.deleteById(userAccount.getId());
+        return userAccount;
+    }
 }

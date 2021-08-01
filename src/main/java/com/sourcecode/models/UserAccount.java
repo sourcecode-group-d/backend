@@ -2,12 +2,11 @@ package com.sourcecode.models;
 
 import com.fasterxml.jackson.annotation.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.ObjectIdGenerators ;
 
@@ -51,6 +50,13 @@ public class UserAccount implements UserDetails {
     @ManyToMany(mappedBy = "following", fetch = FetchType.EAGER)
     public List<UserAccount> followers;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "useraccount_role",
+            joinColumns = @JoinColumn(name = "useraccount_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
     public UserAccount(){}
 
     public UserAccount(String username, String password) {
@@ -64,6 +70,8 @@ public class UserAccount implements UserDetails {
         this.username = username;
         this.password = password;
     }
+
+
 
     public Long getId() {
         return id;
@@ -141,9 +149,17 @@ public class UserAccount implements UserDetails {
         this.dataOfBirth = dataOfBirth;
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Set<Role> roles= getRoles();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+
+        return authorities;
     }
 
     @Override
@@ -174,5 +190,17 @@ public class UserAccount implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void setRole(Role role){
+        roles.add(role);
     }
 }
