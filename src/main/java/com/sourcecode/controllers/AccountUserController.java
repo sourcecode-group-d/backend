@@ -61,6 +61,7 @@ public class AccountUserController {
      * @return
      */
     @GetMapping("/profile")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<UserAccount> getUserAccount(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
