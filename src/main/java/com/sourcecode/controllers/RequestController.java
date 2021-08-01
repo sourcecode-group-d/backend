@@ -101,7 +101,10 @@ public class RequestController {
         return request ;
     }
 
-
+    /**
+     * following feeds
+     * @return list of requests for the logged in user's requests
+     */
     @GetMapping("/feeds")
             public List<Request> followingsRequests (){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
