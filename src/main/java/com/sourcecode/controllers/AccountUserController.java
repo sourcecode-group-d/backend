@@ -10,9 +10,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,19 +27,33 @@ public class AccountUserController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder ;
 
-    /**
+     /**
      *
-     * @param userAccount
-     * to create a UserAccount and save it in the DB
+     * @param username
+     * @param password
+     * @param firstName
+     * @param lastName
+     * @param dateOfBirth
+     * @param bio
      * @return
+     * to create a UserAccount and save it in the DB
      */
     @PostMapping("/signup")
-    public UserAccount createUserAccount(@RequestBody UserAccount userAccount){
-        userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
+    public ResponseEntity<UserAccount> createUserAccount(String username,
+                                                       String password,
+                                                       String firstName,
+                                                       String lastName,
+                                                       String dateOfBirth,
+                                                       String bio){
+
+
+        UserAccount userAccount = new UserAccount(firstName, lastName, username, passwordEncoder.encode(password));
+        userAccount.setDataOfBirth(dateOfBirth);
+        userAccount.setBio(bio);
         userAccount = userAccountService.createUserAccount(userAccount);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userAccount , null , new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return userAccount ;
+        return new ResponseEntity<>(userAccount,HttpStatus.ACCEPTED) ;
     }
 
     /**
@@ -52,7 +69,7 @@ public class AccountUserController {
 
     /**
      *
-     * @param id this param should be the the useraccount that the currently logged in user want to follow
+     * @param id this param should be the the useraccount currently logged in want to follow
      * @return  it will return a list of the following of the useraccount that currently logged in
      */
     @PostMapping("/following/{id}")
@@ -76,6 +93,33 @@ public class AccountUserController {
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
         SecurityContextHolder.getContext().getAuthentication();
         return userAccount.getFollowers() ;
+    }
+
+    /**
+     * it will return the UserAccount object that is specified by id
+     * @return
+     */
+    @GetMapping("/user/{id}")
+    public UserAccount getUserInfo(@PathVariable Long id){
+        UserAccount userAccount = userAccountService.findUserAccount(id);
+        return userAccount;
+    }
+
+
+    /**
+     * The user can delete his userAccount.
+     * it will return the UserAccount object that deleted.
+     * @return
+     */
+    @DeleteMapping("/user")
+    public UserAccount deleteAccount(HttpServletRequest request, HttpServletResponse response){
+        UserDetails userDetails = (UserDetails)  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserAccount userAccount = userAccountService.deleteUserAccount(userDetails.getUsername());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return userAccount;
     }
 
 }

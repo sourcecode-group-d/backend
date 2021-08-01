@@ -36,19 +36,14 @@ public class ResponseController {
     @PostMapping("/response/{reqId}")
     public Response addNewResponse(@RequestBody Response response, @PathVariable Long reqId){
         Request request = requestService.findRequest(reqId);
-
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         response.setUserAccount(userAccountService.findUserAccount(userDetails.getUsername()));
-
         response.setRequest(request);
-
         LocalDateTime localDateTime = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String createdAt = localDateTime.format(dateTimeFormatter);
         response.setCreatedAt(createdAt);
         response = responseService.createResponse(response);
-
         return response;
     }
 
@@ -60,7 +55,6 @@ public class ResponseController {
     @GetMapping("/response/request/{reqId}")
     public List<Response> getAllResponsesForSpecificReq(@PathVariable Long reqId){
         Request request = requestService.findRequest(reqId);
-
         return request.getResponses();
     }
 
@@ -93,11 +87,8 @@ public class ResponseController {
     @PutMapping("/response/{id}")
     public Response updateResponse (@PathVariable Long id , @RequestBody Response response){
         Response updated = responseService.findResponse(id);
-
         updated.setContent(response.getContent());
-
         responseService.createResponse(updated);
-
         return updated;
     }
 
