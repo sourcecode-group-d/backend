@@ -9,8 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,7 +21,8 @@ import java.util.List;
 
 
 @CrossOrigin(origins = "http://localhost:3000/")
-@RestController
+//@RestController
+@Controller
 public class RequestController {
 
     @Autowired
@@ -33,7 +36,8 @@ public class RequestController {
      * @return it will return the request that have been saved
      */
     @PostMapping("/request")
-    public ResponseEntity<Request> createNewRequest(@RequestBody Request request){
+    public RedirectView createNewRequest(String type, String content){
+        Request request = new Request(type , content);
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
         request.setUserAccount(userAccount);
@@ -42,7 +46,7 @@ public class RequestController {
         String createdAt = localDateTime.format(dateTimeFormatter);
         request.setCreatedAt(createdAt);
         request = requestService.createRequest(request);
-        return new ResponseEntity<>(request , HttpStatus.CREATED) ;
+        return new RedirectView("/profile") ;
     }
 
     /**

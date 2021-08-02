@@ -8,6 +8,7 @@ import com.sourcecode.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -15,7 +16,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000/")
-@RestController
+//@RestController
+@Controller
 public class ResponseController {
 
     @Autowired
