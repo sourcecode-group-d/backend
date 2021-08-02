@@ -22,7 +22,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-//@RestController
+
 @Controller
 public class AccountUserController {
 
@@ -95,11 +95,11 @@ public class AccountUserController {
      * @return
      */
     @GetMapping("/profile")
-//    @CrossOrigin(origins = "http://localhost:3000")
-    public String getUserAccount(){
+    public String getUserAccount(Model model){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
-        return "homepage";
+        model.addAttribute("appUser" , userAccount) ;
+        return "profile";
     }
 
     /**
