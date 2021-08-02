@@ -37,7 +37,7 @@ public class AccountUserController {
         if (userDetails != null) {
             UserAccount user = userAccountService.findUserAccount(userDetails.getName());
             model.addAttribute("user" , user);
-            return "profile";
+            return "homepage";
         }
         else {
             return "index";
@@ -56,7 +56,7 @@ public class AccountUserController {
 
     @GetMapping("/homepage")
     public String getProfile(){
-        return "profile";
+        return "homepage";
     }
 
 
@@ -95,11 +95,11 @@ public class AccountUserController {
      * @return
      */
     @GetMapping("/profile")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<UserAccount> getUserAccount(){
+//    @CrossOrigin(origins = "http://localhost:3000")
+    public String getUserAccount(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
-        return new ResponseEntity<>(userAccount , HttpStatus.ACCEPTED) ;
+        return "homepage";
     }
 
     /**

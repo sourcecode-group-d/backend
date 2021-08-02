@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head th:replace="fragments/head :: profile"></head>
 
@@ -31,7 +31,7 @@
             </svg>
             <p>Question &amp; Answer</p>
           </a>
-          <a class="navlinkLogout" href="/feed">
+          <a class="navlinkLogout" href="/logout">
             <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z">
@@ -41,24 +41,24 @@
           </a></div>
       </div>
     </div>
+<!--    //////////////////////////////////////////////////////////////  -->
     <div class="feed">
       <p class="feedTite">Activity</p>
-      <form action="" method="POST" class="postForm">
+      <form action="/request" method="POST" class="postForm">
         <label>New Post</label>
         <div class="postType"><label for="type">Post Type:</label>
           <input class="chooseType" list="types" name="type" id="type" placeholder="Post Type">
           <datalist id="types">
-            <option value="type 1"></option>
-            <option value="type 2"></option>
-            <option value="type 3"></option>
-            <option value="type 4"></option>
+            <option value="Code Challenge"></option>
+            <option value="Question"></option>
           </datalist>
         </div>
-        <textarea class="post" name="post" placeholder="What's on your mind?"></textarea>
+        <textarea class="post" name="content" placeholder="What's on your mind?"></textarea>
         <div class="btnbox">
           <input type="submit" class="btnPost" value="Post">
         </div>
       </form>
+<!--    //////////////////////////////////////////////////////////////  -->
       <div class="posts">
         <div class="postCard">
           <div class="PostProfile"><img
