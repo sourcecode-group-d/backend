@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Comments </title>
+</head>
+<body>
+<h1 th:text="${user.id}"> </h1>
+<h2 th:text="${userPost.firstName} +' ' +${userPost.lastName}"></h2>
+<h3 th:text="${request.content}"></h3>
+<h3 th:text="${request.createdAt}"></h3>
+<h3 th:text="${request.type}"></h3>
+
+
+<ul>
+    <p th:each="post : ${responses}">
+        <span th:text="${post.content}"></span>
+        <span th:text="${post.createdAt}"></span>
+    </p>
+</ul>
+<form th:action="'/response/'+${user.id}+'/'+${request.id}" method="post"  >
+
+    <textarea  name="comment" placeholder="Add Comment ..."></textarea>
+    <input type="submit"  >
+</form>
+<!--<p th:each=" comment : ${responses}" >-->
+<!--    <h3 th:text="${comment.content}"></h3>-->
+<!--</p>-->
+
+
+</body>
+</html>

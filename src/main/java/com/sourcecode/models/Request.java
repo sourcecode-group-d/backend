@@ -99,9 +99,9 @@ public class Request {
 
     public void setResponses(List<Response> responses) { this.responses = responses; }
 
+
     public void setLikesCounter(Integer likesCounter) {
         this.likesCounter = likesCounter;
     }
-
 
 }
