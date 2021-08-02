@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@CrossOrigin(origins = "http://localhost:3000/")
+@CrossOrigin(origins = "http://localhost:3000/test", maxAge = 3600)
 @RestController
 public class RequestController {
 
