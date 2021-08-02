@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
 
 <head th:replace="fragments/head :: profile"></head>
 
@@ -43,6 +43,7 @@
     </div>
 <!--    //////////////////////////////////////////////////////////////  -->
     <div class="feed">
+      <h1 th:text="${user.username}"></h1>
       <p class="feedTite">Activity</p>
       <form action="/request" method="POST" class="postForm">
         <label>New Post</label>
@@ -59,79 +60,10 @@
         </div>
       </form>
 <!--    //////////////////////////////////////////////////////////////  -->
-      <div class="posts">
-        <div class="postCard">
-          <div class="PostProfile"><img
-              src="https://lh3.googleusercontent.com/a-/AOh14GgFHvApPY0ARg25y8rsMJdqdP7KCRj1c3MpNn91fw=s96-c"
-              alt="Mohammad ِAbu Mattar" title="Mohammad ِAbu Mattar">
-            <p>Mohammad ِAbu Mattar</p>
-          </div>
-          <div class="postInfo">
-            <div class="postBodyDate">20/12/2021</div>
-            <div class="postBodyInfo">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi
-              dolores
-              beatae maxime debitis assumenda quaerat et delectus aspernatur magnam, fuga deserunt? Architecto magni a
-              odio, quaerat saepe consequatur mollitia quia.
-            </div>
-            <div class="postBodyType">Type: Lorem ipsum dolor si</div>
-          </div>
-          <div class="postBodyBtnGroup">
-            <a href="" class="postBodyBtn">
-              <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M12 6c0-.55-.45-1-1-1H5.82l.66-3.18.02-.23c0-.31-.13-.59-.33-.8L5.38 0 .44 4.94C.17 5.21 0 5.59 0 6v6.5c0 .83.67 1.5 1.5 1.5h6.75c.62 0 1.15-.38 1.38-.91l2.26-5.29c.07-.17.11-.36.11-.55V6zm10.5 4h-6.75c-.62 0-1.15.38-1.38.91l-2.26 5.29c-.07.17-.11.36-.11.55V18c0 .55.45 1 1 1h5.18l-.66 3.18-.02.24c0 .31.13.59.33.8l.79.78 4.94-4.94c.27-.27.44-.65.44-1.06v-6.5c0-.83-.67-1.5-1.5-1.5z">
-                </path>
-              </svg>
-              vote</a><a href="" class="postBodyBtn">
-              <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z">
-                </path>
-              </svg>
-              Comment</a><a href="" class="postBodyBtn">
-              <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"></path>
-              </svg>
-              Delete</a></div>
-        </div>
-        <div class="postCard">
-          <div class="PostProfile"><img
-              src="https://lh3.googleusercontent.com/a-/AOh14GgFHvApPY0ARg25y8rsMJdqdP7KCRj1c3MpNn91fw=s96-c"
-              alt="Mohammad ِAbu Mattar" title="Mohammad ِAbu Mattar">
-            <p>Mohammad ِAbu Mattar</p>
-          </div>
-          <div class="postInfo">
-            <div class="postBodyDate">20/12/2021</div>
-            <div class="postBodyInfo">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi
-              dolores
-              beatae maxime debitis assumenda quaerat et delectus aspernatur magnam, fuga deserunt? Architecto magni a
-              odio, quaerat saepe consequatur mollitia quia.
-            </div>
-            <div class="postBodyType">Type: Lorem ipsum dolor si</div>
-          </div>
-          <div class="postBodyBtnGroup">
-            <a href="" class="postBodyBtn">
-              <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                    d="M12 6c0-.55-.45-1-1-1H5.82l.66-3.18.02-.23c0-.31-.13-.59-.33-.8L5.38 0 .44 4.94C.17 5.21 0 5.59 0 6v6.5c0 .83.67 1.5 1.5 1.5h6.75c.62 0 1.15-.38 1.38-.91l2.26-5.29c.07-.17.11-.36.11-.55V6zm10.5 4h-6.75c-.62 0-1.15.38-1.38.91l-2.26 5.29c-.07.17-.11.36-.11.55V18c0 .55.45 1 1 1h5.18l-.66 3.18-.02.24c0 .31.13.59.33.8l.79.78 4.94-4.94c.27-.27.44-.65.44-1.06v-6.5c0-.83-.67-1.5-1.5-1.5z">
-                </path>
-              </svg>
-              vote</a><a href="" class="postBodyBtn">
-            <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                  d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z">
-              </path>
-            </svg>
-            Comment</a><a href="" class="postBodyBtn">
-            <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"></path>
-            </svg>
-            Delete</a></div>
-        </div>
+      <div th:replace="fragments/post :: posts"></div>
       </div>
     </div>
     <div class="rightSide"></div>
-  </div>
 </body>
 
 </html>
