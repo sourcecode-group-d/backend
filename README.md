@@ -2,11 +2,12 @@
 
 
 ## Starter Guide:
-To run the server application, clone down this repo.
+To run the server application,
+1. clone down this repo.
 
-'cd' into the cloned repository in your terminal
+2. 'cd' into the cloned repository in your terminal
 
-Make sure you have modified the applicaton.properties file with your own environment variables:
+3. Make sure you have modified the applicaton.properties file with your own environment variables:
 
  spring.datasource.url=${DATABASE_URL}
  spring.datasource.username=${DATABASE_USERNAME}
@@ -15,3 +16,6 @@ Make sure you have modified the applicaton.properties file with your own environ
  spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
  server.port=8080
  
+4. Run the command:
+
+ ./gradlew bootrun
