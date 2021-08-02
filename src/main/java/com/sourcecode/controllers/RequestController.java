@@ -144,13 +144,13 @@ public class RequestController {
      * @param reqId of the request that you want to dislike it
      * @return the request object
      */
-    @PostMapping("/request/dislikes/{reqId}")
-    public Request disLike(@PathVariable Long reqId){
-        Request request = requestService.findRequest(reqId);
-        request.dislike();
-        request = requestService.createRequest(request);
-        return request ;
-    }
+//    @PostMapping("/request/dislikes/{reqId}")
+//    public RedirectView disLike(@PathVariable Long reqId){
+//        Request request = requestService.findRequest(reqId);
+//        request.dislike();
+//        request = requestService.createRequest(request);
+//        return new RedirectView("/") ;
+//    }
 
     /**
      * following feeds
