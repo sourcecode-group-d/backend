@@ -1,0 +1,75 @@
+<div th:fragment="login" class="align">
+
+  <div class="grid">
+
+    <form action="/" method="post" class="form login">
+
+      <header class="login__header">
+        <h3 class="login__title">Login</h3>
+      </header>
+
+      <div class="login__body">
+
+        <div class="form__field">
+          <input type="text" placeholder="username" required>
+        </div>
+
+        <div class="form__field">
+          <input type="password" placeholder="Password" required>
+        </div>
+
+      </div>
+
+      <div class="login__footer">
+        <input type="submit" value="Login">
+
+        <p><span class="iconLogin icon--info">?</span><a href="#">I have a account</a></p>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<div th:fragment="sinpup" class="align">
+
+  <div class="grid">
+
+    <form action="/" method="post" class="form login">
+
+      <header class="login__header">
+        <h3 class="login__title">Sign Up</h3>
+      </header>
+
+      <div class="login__body">
+        <div class="form__field">
+          <input type="text" placeholder="username" required>
+        </div>
+        <div class="form__field">
+          <input type="password" placeholder="Password" required>
+        </div>
+        <div class="form__field">
+          <input type="text" placeholder="firstname" required>
+        </div>
+        <div class="form__field">
+          <input type="text" placeholder="lastname" required>
+        </div>
+        <div class="form__field">
+          <input type="date" placeholder="dataOfBirth" required>
+        </div>
+        <div class="form__field">
+          <input type="text" placeholder="bio" required>
+        </div>
+      </div>
+
+      <div class="login__footer">
+        <input type="submit" value="Sign Up">
+        <p><span class="iconLogin icon--info">?</span><a href="#">I don't have a account</a></p>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
