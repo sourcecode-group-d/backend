@@ -139,4 +139,37 @@ public class RequestController {
         return  followingReq;
     }
 
+    /**
+     *
+     * @param reqId of the request that you want to dislike it
+     * @return the request object
+     */
+    @PostMapping("/request/dislikes/{reqId}")
+    public Request disLike(@PathVariable Long reqId){
+        Request request = requestService.findRequest(reqId);
+        request.dislike();
+        request = requestService.createRequest(request);
+        return request ;
+    }
+
+    /**
+     * following feeds
+     * @return list of requests for the logged in user's requests
+     */
+    @GetMapping("/feeds")
+            public List<Request> followingsRequests (){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserAccount user = userAccountService.findUserAccount(userDetails.getUsername());
+       List <UserAccount> followingAcc = user.getFollowing();
+       List<Request> followingReq = new ArrayList<>();
+       for ( UserAccount followingPerson : followingAcc)
+       {
+          for (Request oneRequest : followingPerson.getRequests())
+          {
+              followingReq.add(oneRequest);
+          }
+       }
+        return  followingReq;
+    }
+
 }
