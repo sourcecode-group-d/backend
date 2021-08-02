@@ -93,4 +93,5 @@ public class Request {
     }
 
     public void setResponses(List<Response> responses) { this.responses = responses; }
+
 }
