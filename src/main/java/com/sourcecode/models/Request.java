@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","responses","userAccount"})
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","userAccount"})
 public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,7 @@ public class Request {
 
     private String createdAt ;
 
-    private Integer LikesCounter ;
+    private Integer likesCounter = 0 ;
 
     @ManyToOne( fetch = FetchType.LAZY )
     private UserAccount userAccount ;
@@ -63,15 +63,21 @@ public class Request {
 
 
     public Integer addLike(){
-        if(this.LikesCounter == null) this.LikesCounter = 0 ;
-        this.LikesCounter++ ;
-        return this.LikesCounter;
+        this.likesCounter++ ;
+        return this.likesCounter;
     }
 
+    public Integer dislike(){
+        if(this.likesCounter == 0)
+            return this.likesCounter ;
+        else
+            this.likesCounter-- ;
 
+        return this.likesCounter;
+    }
 
     public Integer getLikesCounter() {
-        return LikesCounter;
+        return likesCounter;
     }
 
     public void setContent(String content) {

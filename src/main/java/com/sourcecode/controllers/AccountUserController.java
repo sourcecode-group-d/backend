@@ -1,27 +1,30 @@
 package com.sourcecode.controllers;
 
 import com.sourcecode.infrastructure.services.UserAccountService;
+import com.sourcecode.models.Request;
 import com.sourcecode.models.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.sql.Date;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-//@CrossOrigin(origins = "http://localhost:3000/")
-//@CrossOrigin(origins = "*", allowedHeaders = "*")
-@RestController
+
+//@RestController
+@Controller
 public class AccountUserController {
 
     @Autowired
@@ -30,72 +33,80 @@ public class AccountUserController {
     private BCryptPasswordEncoder passwordEncoder ;
 
     @GetMapping("/")
-    public String slash(){
-        return "Hello :D";
+    public String getHome(Principal userDetails , Model model ){
+
+        if (userDetails != null) {
+            UserAccount user = userAccountService.findUserAccount(userDetails.getName());
+            Iterable<Request> requests =  user.getRequests();
+            model.addAttribute("user" , user);
+            model.addAttribute("request",requests);
+            return "homepage";
+        }
+        else {
+            return "index";
+        }
     }
 
-//    @PostMapping("/signup")
-//    public ResponseEntity<UserAccount> createUserAccount(String username,
-//                                                       String password,
-//                                                       String firstName,
-//                                                       String lastName,
-//                                                       Date dateOfBirth,
-//                                                       String bio){
-//
-//
-//        UserAccount userAccount = new UserAccount(
-//                username,
-//                passwordEncoder.encode(password),
-//                firstName,
-//                lastName,
-//                dateOfBirth,
-//                bio
-//        );
-//        userAccount = userAccountService.createUserAccount(userAccount);
-//        Authentication authentication = new UsernamePasswordAuthenticationToken(userAccount , null , new ArrayList<>());
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        return new ResponseEntity<>(userAccount,HttpStatus.ACCEPTED) ;
-//    }
+    @GetMapping("/login")
+    public String getLogin(){
+        return "login";
+    }
+
+    @GetMapping("/signup")
+    public String getSignup(){
+        return "signup";
+    }
+
+    @GetMapping("/homepage")
+    public String getProfile(){
+        return "homepage";
+    }
 
 
-    @RequestMapping("/signup")
-    public void createUserAccount( String username,
-                                     String password,
-                                     String firstName,
-                                     String lastName,
-                                     Date dateOfBirth,
-                                     String bio, HttpServletResponse response) throws IOException {
+
+     /**
+     *
+     * @param username
+     * @param password
+     * @param firstName
+     * @param lastName
+     * @param dateOfBirth
+     * @param bio
+     * @return
+     * to create a UserAccount and save it in the DB
+     */
+    @PostMapping("/signup")
+    public RedirectView createUserAccount(String username,
+                                          String password,
+                                          String firstName,
+                                          String lastName,
+                                          String dateOfBirth,
+                                          String bio){
 
 
-        UserAccount userAccount = new UserAccount(
-                username,
-                passwordEncoder.encode(password),
-                firstName,
-                lastName,
-                dateOfBirth,
-                bio
-        );
+        UserAccount userAccount = new UserAccount(firstName, lastName, username, passwordEncoder.encode(password));
+        userAccount.setDataOfBirth(dateOfBirth);
+        userAccount.setBio(bio);
         userAccount = userAccountService.createUserAccount(userAccount);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userAccount , null , new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        response.sendRedirect("http://localhost:3000/profile");
+        return new RedirectView("/") ;
     }
+
     /**
      * it will return the UserAccount object that is currently logged in
      * @return
      */
     @GetMapping("/profile")
-    public List<UserAccount> getUserAccount(){
+    public String getUserAccount(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
-        List<UserAccount> users=new ArrayList<>();
-        users.add(userAccount);
-        return users;
+        return "homepage";
     }
 
     /**
      *
-     * @param id this param should be the the useraccount that the currently logged in user want to follow
+     * @param id this param should be the the useraccount currently logged in want to follow
      * @return  it will return a list of the following of the useraccount that currently logged in
      */
     @PostMapping("/following/{id}")
@@ -105,6 +116,7 @@ public class AccountUserController {
         UserAccount userAccountLoggedIn = userAccountService.findUserAccount(userDetails.getUsername());
         userAccountLoggedIn.addFollowing(userAccount);
         userAccountService.createUserAccount(userAccountLoggedIn);
+
         return userAccountLoggedIn.getFollowing();
     }
 
@@ -116,7 +128,35 @@ public class AccountUserController {
     public List<UserAccount> getFollwers(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
+        SecurityContextHolder.getContext().getAuthentication();
         return userAccount.getFollowers() ;
+    }
+
+    /**
+     * it will return the UserAccount object that is specified by id
+     * @return
+     */
+    @GetMapping("/user/{id}")
+    public UserAccount getUserInfo(@PathVariable Long id){
+        UserAccount userAccount = userAccountService.findUserAccount(id);
+        return userAccount;
+    }
+
+
+    /**
+     * The user can delete his userAccount.
+     * it will return the UserAccount object that deleted.
+     * @return
+     */
+    @DeleteMapping("/user")
+    public UserAccount deleteAccount(HttpServletRequest request, HttpServletResponse response){
+        UserDetails userDetails = (UserDetails)  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserAccount userAccount = userAccountService.deleteUserAccount(userDetails.getUsername());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return userAccount;
     }
 
 }

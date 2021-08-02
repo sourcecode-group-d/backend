@@ -2,43 +2,41 @@ package com.sourcecode.models;
 
 import com.fasterxml.jackson.annotation.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.sql.Date;
-import java.util.List;
+import java.util.*;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators ;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "requests", "responses", "followers", "following"})
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","requests","responses" , "followers" , "following"})
 public class UserAccount implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id ;
 
-    private String firstName;
-    private String lastName;
+    private String firstName ;
+    private String lastName ;
 
     @Column(unique = true)
-    private String username;
-    private String password;
+    private String username ;
+    private String password ;
 
-    private String imageUrl;
+    private String imageUrl ;
 
-    private Date dataOfBirth;
+    private String dataOfBirth ;
 
     @Column(columnDefinition = "text")
-    private String bio;
-//    Date dateOfBirth;
+    private String bio ;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccount")
-    private List<Request> requests;
+    @OneToMany(fetch =FetchType.LAZY , mappedBy = "userAccount")
+    private List<Request> requests ;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccount", orphanRemoval = true)
-    private List<Response> responses;
+    @OneToMany( fetch = FetchType.LAZY , mappedBy = "userAccount" , orphanRemoval = true )
+    private List<Response> responses ;
 
 
     @ManyToMany
@@ -52,8 +50,14 @@ public class UserAccount implements UserDetails {
     @ManyToMany(mappedBy = "following", fetch = FetchType.EAGER)
     public List<UserAccount> followers;
 
-    public UserAccount() {
-    }
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "useraccount_role",
+            joinColumns = @JoinColumn(name = "useraccount_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+    public UserAccount(){}
 
     public UserAccount(String username, String password) {
         this.username = username;
@@ -67,19 +71,7 @@ public class UserAccount implements UserDetails {
         this.password = password;
     }
 
-    public UserAccount(String username,
-                       String password,
-                       String firstName,
-                       String lastName,
-                       Date dateOfBirth,
-                       String bio) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
-        this.dataOfBirth = dateOfBirth;
-        this.bio = bio;
-    }
+
 
     public Long getId() {
         return id;
@@ -97,9 +89,7 @@ public class UserAccount implements UserDetails {
         return requests;
     }
 
-    public List<Response> getResponses() {
-        return responses;
-    }
+    public List<Response> getResponses() { return responses; }
 
     public List<UserAccount> getFollowing() {
         return following;
@@ -117,18 +107,18 @@ public class UserAccount implements UserDetails {
         return bio;
     }
 
-    public Date getDataOfBirth() {
+    public String getDataOfBirth() {
         return dataOfBirth;
     }
 
-    public List<UserAccount> addFollowing(UserAccount userAccount) {
+    public List<UserAccount> addFollowing(UserAccount userAccount){
         this.following.add(userAccount);
-        return this.following;
+        return this.following ;
     }
 
-    public List<UserAccount> addFollower(UserAccount userAccount) {
+    public List<UserAccount> addFollower(UserAccount userAccount){
         this.followers.add(userAccount);
-        return this.followers;
+        return this.followers ;
     }
 
     public void setFirstName(String firstName) {
@@ -155,18 +145,26 @@ public class UserAccount implements UserDetails {
         this.bio = bio;
     }
 
-    public void setDataOfBirth(Date dataOfBirth) {
+    public void setDataOfBirth(String dataOfBirth) {
         this.dataOfBirth = dataOfBirth;
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Set<Role> roles= getRoles();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return this.password;
+        return this.password ;
     }
 
     @Override
@@ -192,5 +190,17 @@ public class UserAccount implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void setRole(Role role){
+        roles.add(role);
     }
 }

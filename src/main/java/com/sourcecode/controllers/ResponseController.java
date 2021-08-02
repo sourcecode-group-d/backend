@@ -8,6 +8,7 @@ import com.sourcecode.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -15,7 +16,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000/")
-@RestController
+//@RestController
+@Controller
 public class ResponseController {
 
     @Autowired
@@ -27,10 +29,15 @@ public class ResponseController {
     @Autowired
     private ResponseService responseService;
 
-    @PostMapping("/response/{id}")
-    public Response addNewResponse(@RequestBody Response response, @PathVariable Long id) {
-        Request request = requestService.findRequest(id);
-
+    /**
+     *
+     * @param response the response that you want to save
+     * @param reqId the id of the request object that you want to save the response inside it
+     * @return the saved response
+     */
+    @PostMapping("/response/{reqId}")
+    public Response addNewResponse(@RequestBody Response response, @PathVariable Long reqId){
+        Request request = requestService.findRequest(reqId);
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         response.setUserAccount(userAccountService.findUserAccount(userDetails.getUsername()));
         response.setRequest(request);
@@ -48,7 +55,7 @@ public class ResponseController {
      * @return a list of the responses that have beed saved inside that request
      */
     @GetMapping("/response/request/{reqId}")
-    public List<Response> getAllResponsesForSpecificReq(@PathVariable Long reqId) {
+    public List<Response> getAllResponsesForSpecificReq(@PathVariable Long reqId){
         Request request = requestService.findRequest(reqId);
         return request.getResponses();
     }
@@ -59,7 +66,7 @@ public class ResponseController {
      * @return that response
      */
     @GetMapping("/response/{id}")
-    public Response getResponse(@PathVariable Long id) {
+    public Response getResponse(@PathVariable Long id){
         return responseService.findResponse(id);
     }
 
@@ -69,7 +76,7 @@ public class ResponseController {
      * @return the deleted response
      */
     @DeleteMapping("/response/{id}")
-    public Response deleteResponse(@PathVariable Long id) {
+    public Response deleteResponse(@PathVariable Long id){
         return responseService.deleteResponse(id);
     }
 
@@ -80,13 +87,10 @@ public class ResponseController {
      * @return the updated response object
      */
     @PutMapping("/response/{id}")
-    public Response updateResponse(@PathVariable Long id, @RequestBody Response response) {
+    public Response updateResponse (@PathVariable Long id , @RequestBody Response response){
         Response updated = responseService.findResponse(id);
-
         updated.setContent(response.getContent());
-
         responseService.createResponse(updated);
-
         return updated;
     }
 
@@ -96,9 +100,22 @@ public class ResponseController {
      * @return the response object
      */
     @PostMapping("/response/likes/{id}")
-    public Response addLike(@PathVariable Long id) {
+    public Response addLike(@PathVariable Long id){
         Response response = responseService.findResponse(id);
         response.addLike();
         return responseService.createResponse(response);
+    }
+
+    /**
+     *
+     * @param id of the response that you want to dislike it
+     * @return the response object
+     */
+    @PostMapping("/response/dislikes/{id}")
+    public Response disLike(@PathVariable Long id){
+        Response response = responseService.findResponse(id);
+        response.dislike();
+        response = responseService.createResponse(response);
+        return response ;
     }
 }

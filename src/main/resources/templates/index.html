@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+
+<head th:replace="fragments/head :: main"></head>
+
 <body>
-<h1>test passed</h1>
+  <header>
+    <nav th:replace="fragments/navbar :: topnav"></nav>
+    <section th:replace="fragments/banner :: banner"></section>
+  </header>
+  <main class="landingPage">
+    <section th:replace="fragments/ourservices :: ourservices"></section>
+  </main>
+  <footer th:replace="fragments/footer :: footer"></footer>
 </body>
+
 </html>

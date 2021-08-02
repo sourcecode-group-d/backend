@@ -15,6 +15,7 @@ public class Response {
 
     @Column(columnDefinition = "text")
     private String content;
+
     private String createdAt ;
 
     @JsonIgnore
@@ -25,7 +26,7 @@ public class Response {
     @ManyToOne( fetch = FetchType.LAZY)
     private Request request;
 
-    private Integer LikesCounter ;
+    private Integer likesCounter = 0;
 
 
     public Response(){}
@@ -51,7 +52,7 @@ public class Response {
     }
 
     public Integer getLikesCounter() {
-        return LikesCounter;
+        return likesCounter;
     }
 
     public UserAccount getUserAccount() { return userAccount; }
@@ -61,9 +62,17 @@ public class Response {
     }
 
     public Integer addLike(){
-        if(this.LikesCounter == null) this.LikesCounter = 0 ;
-        this.LikesCounter++ ;
-        return this.LikesCounter;
+        this.likesCounter++ ;
+        return this.likesCounter;
+    }
+
+    public Integer dislike(){
+        if( this.likesCounter == 0)
+            return this.likesCounter ;
+        else
+            this.likesCounter-- ;
+
+        return this.likesCounter;
     }
 
     public void setCreatedAt(String createdAt) {
