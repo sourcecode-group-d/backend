@@ -2,7 +2,7 @@
 
   <div class="grid">
 
-    <form action="/" method="post" class="form login">
+    <form action="/login" method="post" class="form login">
 
       <header class="login__header">
         <h3 class="login__title">Login</h3>
@@ -11,11 +11,11 @@
       <div class="login__body">
 
         <div class="form__field">
-          <input type="text" placeholder="username" required>
+          <input type="text" placeholder="username" required name="username">
         </div>
 
         <div class="form__field">
-          <input type="password" placeholder="Password" required>
+          <input type="password" placeholder="Password" required name="password">
         </div>
 
       </div>
@@ -36,7 +36,7 @@
 
   <div class="grid">
 
-    <form action="/" method="post" class="form login">
+    <form action="/signup" method="post" class="form login">
 
       <header class="login__header">
         <h3 class="login__title">Sign Up</h3>
@@ -44,22 +44,22 @@
 
       <div class="login__body">
         <div class="form__field">
-          <input type="text" placeholder="username" required>
+          <input type="text" placeholder="username" required name="username">
         </div>
         <div class="form__field">
-          <input type="password" placeholder="Password" required>
+          <input type="password" placeholder="Password" required name="password">
         </div>
         <div class="form__field">
-          <input type="text" placeholder="firstname" required>
+          <input type="text" placeholder="firstname" required name="firstName">
         </div>
         <div class="form__field">
-          <input type="text" placeholder="lastname" required>
+          <input type="text" placeholder="lastname" required name="lastName">
         </div>
         <div class="form__field">
-          <input type="date" placeholder="dataOfBirth" required>
+          <input type="date" placeholder="dataOfBirth" required name="dateOfBirth">
         </div>
         <div class="form__field">
-          <input type="text" placeholder="bio" required>
+          <input type="text" placeholder="bio" required name="bio">
         </div>
       </div>
 
