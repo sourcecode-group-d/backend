@@ -12,22 +12,54 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000/test", maxAge = 3600)
-@RestController
-//@CrossOrigin
+//@RestController
+@Controller
 public class AccountUserController {
 
     @Autowired
     private UserAccountService userAccountService ;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder ;
+
+    @GetMapping("/")
+    public String getHome(Principal userDetails , Model model ){
+
+        if (userDetails != null) {
+            UserAccount user = userAccountService.findUserAccount(userDetails.getName());
+            model.addAttribute("user" , user);
+            return "homepage";
+        }
+        else {
+            return "index";
+        }
+    }
+
+    @GetMapping("/login")
+    public String getLogin(){
+        return "login";
+    }
+
+    @GetMapping("/signup")
+    public String getSignup(){
+        return "signup";
+    }
+
+    @GetMapping("/homepage")
+    public String getProfile(){
+        return "homepage";
+    }
+
+
 
      /**
      *
@@ -41,12 +73,12 @@ public class AccountUserController {
      * to create a UserAccount and save it in the DB
      */
     @PostMapping("/signup")
-    public ResponseEntity<UserAccount> createUserAccount(String username,
-                                                       String password,
-                                                       String firstName,
-                                                       String lastName,
-                                                       String dateOfBirth,
-                                                       String bio){
+    public RedirectView createUserAccount(String username,
+                                          String password,
+                                          String firstName,
+                                          String lastName,
+                                          String dateOfBirth,
+                                          String bio){
 
 
         UserAccount userAccount = new UserAccount(firstName, lastName, username, passwordEncoder.encode(password));
@@ -55,7 +87,7 @@ public class AccountUserController {
         userAccount = userAccountService.createUserAccount(userAccount);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userAccount , null , new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>(userAccount,HttpStatus.ACCEPTED) ;
+        return new RedirectView("/") ;
     }
 
     /**
@@ -63,11 +95,11 @@ public class AccountUserController {
      * @return
      */
     @GetMapping("/profile")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<UserAccount> getUserAccount(){
+//    @CrossOrigin(origins = "http://localhost:3000")
+    public String getUserAccount(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
-        return new ResponseEntity<>(userAccount , HttpStatus.ACCEPTED) ;
+        return "homepage";
     }
 
     /**
