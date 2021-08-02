@@ -19,3 +19,6 @@ To run the server application,
 4. Run the command:
 
  ./gradlew bootrun
+
+# Archeticture 
+![img](./assets/projDiagram.png)
