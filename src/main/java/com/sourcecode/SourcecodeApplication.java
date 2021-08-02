@@ -1,6 +1,7 @@
 package com.sourcecode;
 
 
+
 import com.sourcecode.infrastructure.services.UserAccountService;
 import com.sourcecode.models.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,9 @@ public class SourcecodeApplication implements CommandLineRunner {
     }
 
 
-    private final UserAccountService userAccountService;
+    private final UserAccountService userAccountService ;
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder ;
 
     SourcecodeApplication(UserAccountService userAccountService) {
         this.userAccountService = userAccountService;
@@ -33,15 +34,15 @@ public class SourcecodeApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        UserAccount userAccount = new UserAccount("Qusay", "Al-Amarat",
-                "qusay", passwordEncoder.encode("0000"));
-        UserAccount userAccount1 = new UserAccount("Layana", "Baba",
-                "layana", passwordEncoder.encode("0000"));
-        UserAccount userAccount2 = new UserAccount("Saad", "Jabali",
-                "saad", passwordEncoder.encode("0000"));
+        UserAccount userAccount = new UserAccount("Qusay" , "Al-Amarat"  ,
+                "qusay" , passwordEncoder.encode("0000"));
+
+        UserAccount userAccount1 = new UserAccount("Layana" , "Baba",
+                "layana" , passwordEncoder.encode("0000"));
+
         userAccountService.createUserAccount(userAccount);
         userAccountService.createUserAccount(userAccount1);
-        userAccountService.createUserAccount(userAccount2);
+
     }
 
 

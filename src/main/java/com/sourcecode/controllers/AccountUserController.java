@@ -1,11 +1,8 @@
 package com.sourcecode.controllers;
 
 import com.sourcecode.infrastructure.services.UserAccountService;
-import com.sourcecode.models.Request;
 import com.sourcecode.models.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,9 +34,7 @@ public class AccountUserController {
 
         if (userDetails != null) {
             UserAccount user = userAccountService.findUserAccount(userDetails.getName());
-            Iterable<Request> requests =  user.getRequests();
             model.addAttribute("user" , user);
-            model.addAttribute("request",requests);
             return "homepage";
         }
         else {
@@ -97,11 +92,16 @@ public class AccountUserController {
      * it will return the UserAccount object that is currently logged in
      * @return
      */
+   //    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/profile")
-    public String getUserAccount(){
+    public String getUserAccount(Model model){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
-        return "homepage";
+        model.addAttribute("appUser" , userAccount) ;
+        model.addAttribute("followingNum", userAccount.getFollowing().size());
+        model.addAttribute("followerNum", userAccount.getFollowers().size());
+        model.addAttribute("deleteAccount", true);
+        return "profile";
     }
 
     /**
@@ -110,14 +110,25 @@ public class AccountUserController {
      * @return  it will return a list of the following of the useraccount that currently logged in
      */
     @PostMapping("/following/{id}")
-    public List<UserAccount> addFollowing(@PathVariable Long id){
+    public RedirectView addFollowing(@PathVariable Long id){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(id) ;
         UserAccount userAccountLoggedIn = userAccountService.findUserAccount(userDetails.getUsername());
         userAccountLoggedIn.addFollowing(userAccount);
         userAccountService.createUserAccount(userAccountLoggedIn);
 
-        return userAccountLoggedIn.getFollowing();
+        return new RedirectView("/user/{id}");
+    }
+
+    @PostMapping("/unfollow/{id}")
+    public RedirectView removeFollowing(@PathVariable Long id){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserAccount userAccount = userAccountService.findUserAccount(id) ;
+        UserAccount userAccountLoggedIn = userAccountService.findUserAccount(userDetails.getUsername());
+        userAccountLoggedIn.deleteFollowing(userAccount);
+        userAccountService.createUserAccount(userAccountLoggedIn);
+
+        return new RedirectView("/user/{id}");
     }
 
     /**
@@ -137,9 +148,21 @@ public class AccountUserController {
      * @return
      */
     @GetMapping("/user/{id}")
-    public UserAccount getUserInfo(@PathVariable Long id){
+    public String getUserInfo(@PathVariable Long id, Model model){
         UserAccount userAccount = userAccountService.findUserAccount(id);
-        return userAccount;
+        model.addAttribute("appUser",userAccount);
+        model.addAttribute("followingNum", userAccount.getFollowing().size());
+        model.addAttribute("followerNum", userAccount.getFollowers().size());
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserAccount loggedUser = userAccountService.findUserAccount(userDetails.getUsername());
+        if (loggedUser.getId()!= id) {
+            model.addAttribute("showButton", true);
+            model.addAttribute("showProfile", true);
+        }
+        if (userAccount.getFollowers().contains(loggedUser) ){
+            model.addAttribute("showButton", false);
+        }
+        return "profile";
     }
 
 
@@ -148,15 +171,15 @@ public class AccountUserController {
      * it will return the UserAccount object that deleted.
      * @return
      */
-    @DeleteMapping("/user")
-    public UserAccount deleteAccount(HttpServletRequest request, HttpServletResponse response){
+    @PostMapping("/deleteuser")
+    public RedirectView deleteAccount(HttpServletRequest request, HttpServletResponse response){
         UserDetails userDetails = (UserDetails)  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.deleteUserAccount(userDetails.getUsername());
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        return userAccount;
+        return new RedirectView("/");
     }
 
 }

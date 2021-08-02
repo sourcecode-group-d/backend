@@ -8,8 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.*;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators ;
-
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler","requests","responses" , "followers" , "following"})
 public class UserAccount implements UserDetails {
@@ -45,7 +43,7 @@ public class UserAccount implements UserDetails {
             joinColumns = {@JoinColumn(name = "from_id")},
             inverseJoinColumns = {@JoinColumn(name = "to_id")}
     )
-    public List<UserAccount> following;
+    public Set<UserAccount> following= new HashSet<>();
 
     @ManyToMany(mappedBy = "following", fetch = FetchType.EAGER)
     public List<UserAccount> followers;
@@ -91,7 +89,7 @@ public class UserAccount implements UserDetails {
 
     public List<Response> getResponses() { return responses; }
 
-    public List<UserAccount> getFollowing() {
+    public Set<UserAccount> getFollowing() {
         return following;
     }
 
@@ -111,8 +109,13 @@ public class UserAccount implements UserDetails {
         return dataOfBirth;
     }
 
-    public List<UserAccount> addFollowing(UserAccount userAccount){
+    public Set<UserAccount> addFollowing(UserAccount userAccount){
         this.following.add(userAccount);
+        return this.following ;
+    }
+
+    public Set<UserAccount> deleteFollowing(UserAccount userAccount){
+        this.following.remove(userAccount);
         return this.following ;
     }
 

@@ -45,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .and()
                 .rememberMe().key("uniqueAndSecret");
+        http.cors().disable().csrf().disable();
     }
 
 }

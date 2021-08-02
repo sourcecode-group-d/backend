@@ -5,12 +5,9 @@ import com.sourcecode.infrastructure.services.UserAccountService;
 import com.sourcecode.models.Request;
 import com.sourcecode.models.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -18,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @CrossOrigin(origins = "http://localhost:3000/")
@@ -161,7 +159,7 @@ public class RequestController {
             public List<Request> followingsRequests (){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount user = userAccountService.findUserAccount(userDetails.getUsername());
-       List <UserAccount> followingAcc = user.getFollowing();
+       Set<UserAccount> followingAcc = user.getFollowing();
        List<Request> followingReq = new ArrayList<>();
        for ( UserAccount followingPerson : followingAcc)
        {
