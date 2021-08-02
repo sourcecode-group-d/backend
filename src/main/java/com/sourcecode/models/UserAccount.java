@@ -55,6 +55,9 @@ public class UserAccount implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @ManyToOne
+    private Request reqVotes;
+
     public UserAccount(){}
 
     public UserAccount(String username, String password) {
@@ -109,6 +112,10 @@ public class UserAccount implements UserDetails {
         return dataOfBirth;
     }
 
+    public Request getReqVotes() {
+        return reqVotes;
+    }
+
     public Set<UserAccount> addFollowing(UserAccount userAccount){
         this.following.add(userAccount);
         return this.following ;
@@ -122,6 +129,10 @@ public class UserAccount implements UserDetails {
     public List<UserAccount> addFollower(UserAccount userAccount){
         this.followers.add(userAccount);
         return this.followers ;
+    }
+
+    public void setReqVotes(Request reqVotes) {
+        this.reqVotes = reqVotes;
     }
 
     public void setFirstName(String firstName) {
@@ -151,7 +162,6 @@ public class UserAccount implements UserDetails {
     public void setDataOfBirth(String dataOfBirth) {
         this.dataOfBirth = dataOfBirth;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -206,4 +216,5 @@ public class UserAccount implements UserDetails {
     public void setRole(Role role){
         roles.add(role);
     }
+
 }

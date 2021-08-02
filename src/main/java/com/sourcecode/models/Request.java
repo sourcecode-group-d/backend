@@ -3,7 +3,9 @@ package com.sourcecode.models;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler","userAccount"})
@@ -21,12 +23,14 @@ public class Request {
 
     private Integer likesCounter = 0 ;
 
+    @OneToMany( mappedBy = "reqVotes" , fetch = FetchType.LAZY , orphanRemoval = true)
+    private Set<UserAccount> voters = new HashSet<>();
+
     @ManyToOne( fetch = FetchType.LAZY )
     private UserAccount userAccount ;
 
     @OneToMany( mappedBy = "request" , fetch = FetchType.LAZY , orphanRemoval = true)
     private List<Response> responses ;
-
 
     public Request(){}
 
@@ -61,18 +65,19 @@ public class Request {
         this.type = type;
     }
 
+    public Set<UserAccount> getVoters() {
+        return voters;
+    }
+
 
     public Integer addLike(){
         this.likesCounter++ ;
         return this.likesCounter;
     }
 
-    public Integer dislike(){
-        if(this.likesCounter == 0)
-            return this.likesCounter ;
-        else
-            this.likesCounter-- ;
-
+    public Integer dislike(UserAccount userAccount){
+        this.voters.remove(userAccount);
+        this.likesCounter=voters.size();
         return this.likesCounter;
     }
 
@@ -93,4 +98,10 @@ public class Request {
     }
 
     public void setResponses(List<Response> responses) { this.responses = responses; }
+
+    public void setLikesCounter(Integer likesCounter) {
+        this.likesCounter = likesCounter;
+    }
+
+
 }
