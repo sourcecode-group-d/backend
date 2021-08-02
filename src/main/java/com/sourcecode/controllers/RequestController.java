@@ -19,7 +19,6 @@ import java.util.Set;
 
 
 @CrossOrigin(origins = "http://localhost:3000/")
-//@RestController
 @Controller
 public class RequestController {
 
@@ -28,11 +27,7 @@ public class RequestController {
     @Autowired
     private UserAccountService userAccountService ;
 
-    /**
-     * to save a request in the DB
-     * @param request the request object that should be saved  in DB
-     * @return it will return the request that have been saved
-     */
+
     @PostMapping("/request")
     public RedirectView createNewRequest(String type, String content){
         Request request = new Request(type , content);
@@ -100,7 +95,11 @@ public class RequestController {
     @PostMapping("/request/likes/{reqId}")
     public RedirectView addVote(@PathVariable Long reqId){
         Request request = requestService.findRequest(reqId);
-        request.addLike();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
+        userAccount.setReqVotes(request);
+        userAccountService.createUserAccount(userAccount);
+        request.setLikesCounter(request.getVoters().size());
         requestService.createRequest(request);
         return new RedirectView("/");
     }
@@ -113,43 +112,13 @@ public class RequestController {
     @PostMapping("/request/dislikes/{reqId}")
     public RedirectView disVote(@PathVariable Long reqId){
         Request request = requestService.findRequest(reqId);
-        request.dislike();
-        request = requestService.createRequest(request);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
+        userAccountService.createUserAccount(userAccount);
+        request.dislike(userAccount);
+        requestService.createRequest(request);
         return new RedirectView("/") ;
     }
-
-    /**
-     * following feeds
-     * @return list of requests for the logged in user's requests
-     */
-//    @GetMapping("/feeds")
-//            public List<Request> followingsRequests (){
-//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        UserAccount user = userAccountService.findUserAccount(userDetails.getUsername());
-//       List <UserAccount> followingAcc = user.getFollowing();
-//       List<Request> followingReq = new ArrayList<>();
-//       for ( UserAccount followingPerson : followingAcc)
-//       {
-//          for (Request oneRequest : followingPerson.getRequests())
-//          {
-//              followingReq.add(oneRequest);
-//          }
-//       }
-//        return  followingReq;
-//    }
-
-    /**
-     *
-     * @param reqId of the request that you want to dislike it
-     * @return the request object
-     */
-//    @PostMapping("/request/dislikes/{reqId}")
-//    public RedirectView disLike(@PathVariable Long reqId){
-//        Request request = requestService.findRequest(reqId);
-//        request.dislike();
-//        request = requestService.createRequest(request);
-//        return new RedirectView("/") ;
-//    }
 
     /**
      * following feeds

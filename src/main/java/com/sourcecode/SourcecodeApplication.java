@@ -38,17 +38,23 @@ public class SourcecodeApplication implements CommandLineRunner {
                 "qusay" , passwordEncoder.encode("0000"));
         UserAccount userAccount1 = new UserAccount("Layana" , "Baba",
                 "layana" , passwordEncoder.encode("0000"));
+
         UserAccount userAccount2 = new UserAccount("Saad" , "Jabali",
                 "saad" , passwordEncoder.encode("0000"));
         UserAccount userAccount3 = new UserAccount("Mariam" , "Odat",
                 "mariam" , passwordEncoder.encode("123"));
         UserAccount userAccount4 = new UserAccount("Mohammad" , "Abu Mattar",
                 "mohammad" , passwordEncoder.encode("123"));
+
+
+
+
         userAccountService.createUserAccount(userAccount);
         userAccountService.createUserAccount(userAccount1);
         userAccountService.createUserAccount(userAccount2);
         userAccountService.createUserAccount(userAccount3);
         userAccountService.createUserAccount(userAccount4);
+
     }
 
 
