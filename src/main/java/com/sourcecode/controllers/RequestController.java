@@ -9,8 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,7 +21,8 @@ import java.util.List;
 
 
 @CrossOrigin(origins = "http://localhost:3000/")
-@RestController
+//@RestController
+@Controller
 public class RequestController {
 
     @Autowired
@@ -33,7 +36,8 @@ public class RequestController {
      * @return it will return the request that have been saved
      */
     @PostMapping("/request")
-    public ResponseEntity<Request> createNewRequest(@RequestBody Request request){
+    public RedirectView createNewRequest(String type, String content){
+        Request request = new Request(type , content);
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
         Iterable req = userAccount.getRequests();
@@ -43,7 +47,7 @@ public class RequestController {
         String createdAt = localDateTime.format(dateTimeFormatter);
         request.setCreatedAt(createdAt);
         request = requestService.createRequest(request);
-        return new ResponseEntity<>(request , HttpStatus.CREATED) ;
+        return new RedirectView("/");
     }
 
     /**
@@ -71,8 +75,9 @@ public class RequestController {
      * @return the request that have been deleted
      */
     @DeleteMapping("/request/{id}")
-    public Request deleteRequest(@PathVariable Long id){
-        return requestService.deleteRequest(id);
+    public RedirectView deleteRequest(@PathVariable Long id){
+        requestService.deleteRequest(id);
+        return new RedirectView("/") ;
     }
 
     /**
@@ -95,11 +100,11 @@ public class RequestController {
      * @return the request object
      */
     @PostMapping("/request/likes/{reqId}")
-    public Request addLike(@PathVariable Long reqId){
+    public RedirectView addVote(@PathVariable Long reqId){
         Request request = requestService.findRequest(reqId);
         request.addLike();
         requestService.createRequest(request);
-        return request ;
+        return new RedirectView("/");
     }
 
     /**
@@ -108,12 +113,45 @@ public class RequestController {
      * @return the request object
      */
     @PostMapping("/request/dislikes/{reqId}")
-    public Request disLike(@PathVariable Long reqId){
+    public RedirectView disVote(@PathVariable Long reqId){
         Request request = requestService.findRequest(reqId);
         request.dislike();
         request = requestService.createRequest(request);
-        return request ;
+        return new RedirectView("/") ;
     }
+
+    /**
+     * following feeds
+     * @return list of requests for the logged in user's requests
+     */
+//    @GetMapping("/feeds")
+//            public List<Request> followingsRequests (){
+//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        UserAccount user = userAccountService.findUserAccount(userDetails.getUsername());
+//       List <UserAccount> followingAcc = user.getFollowing();
+//       List<Request> followingReq = new ArrayList<>();
+//       for ( UserAccount followingPerson : followingAcc)
+//       {
+//          for (Request oneRequest : followingPerson.getRequests())
+//          {
+//              followingReq.add(oneRequest);
+//          }
+//       }
+//        return  followingReq;
+//    }
+
+    /**
+     *
+     * @param reqId of the request that you want to dislike it
+     * @return the request object
+     */
+//    @PostMapping("/request/dislikes/{reqId}")
+//    public RedirectView disLike(@PathVariable Long reqId){
+//        Request request = requestService.findRequest(reqId);
+//        request.dislike();
+//        request = requestService.createRequest(request);
+//        return new RedirectView("/") ;
+//    }
 
     /**
      * following feeds

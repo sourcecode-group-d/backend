@@ -1,10 +1,11 @@
 package com.sourcecode.controllers;
 
 import com.sourcecode.infrastructure.services.UserAccountService;
+import com.sourcecode.models.Request;
 import com.sourcecode.models.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,10 +13,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +33,18 @@ public class AccountUserController {
     private BCryptPasswordEncoder passwordEncoder ;
 
     @GetMapping("/")
-    public String getHome(){
-        return "index";
+    public String getHome(Principal userDetails , Model model ){
+
+        if (userDetails != null) {
+            UserAccount user = userAccountService.findUserAccount(userDetails.getName());
+            Iterable<Request> requests =  user.getRequests();
+            model.addAttribute("user" , user);
+            model.addAttribute("request",requests);
+            return "homepage";
+        }
+        else {
+            return "index";
+        }
     }
 
     @GetMapping("/login")
@@ -45,7 +59,7 @@ public class AccountUserController {
 
     @GetMapping("/homepage")
     public String getProfile(){
-        return "profile";
+        return "homepage";
     }
 
 
@@ -62,12 +76,12 @@ public class AccountUserController {
      * to create a UserAccount and save it in the DB
      */
     @PostMapping("/signup")
-    public ResponseEntity<UserAccount> createUserAccount(String username,
-                                                       String password,
-                                                       String firstName,
-                                                       String lastName,
-                                                       String dateOfBirth,
-                                                       String bio){
+    public RedirectView createUserAccount(String username,
+                                          String password,
+                                          String firstName,
+                                          String lastName,
+                                          String dateOfBirth,
+                                          String bio){
 
 
         UserAccount userAccount = new UserAccount(firstName, lastName, username, passwordEncoder.encode(password));
@@ -76,7 +90,7 @@ public class AccountUserController {
         userAccount = userAccountService.createUserAccount(userAccount);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userAccount , null , new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>(userAccount,HttpStatus.ACCEPTED) ;
+        return new RedirectView("/") ;
     }
 
     /**
@@ -84,11 +98,10 @@ public class AccountUserController {
      * @return
      */
     @GetMapping("/profile")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<UserAccount> getUserAccount(){
+    public String getUserAccount(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
-        return new ResponseEntity<>(userAccount , HttpStatus.ACCEPTED) ;
+        return "homepage";
     }
 
     /**

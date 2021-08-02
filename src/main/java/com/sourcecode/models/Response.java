@@ -26,7 +26,7 @@ public class Response {
     @ManyToOne( fetch = FetchType.LAZY)
     private Request request;
 
-    private static Integer likesCounter = 0;
+    private Integer likesCounter = 0;
 
 
     public Response(){}
