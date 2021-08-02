@@ -36,6 +36,8 @@ public class SourcecodeApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         UserAccount userAccount = new UserAccount("Qusay" , "Al-Amarat"  ,
                 "qusay" , passwordEncoder.encode("0000"));
+        userAccount.setBio("Hello there ,I'm Qusay Al-Amarat , and  I'm Full Stack Developer");
+
 
         UserAccount userAccount1 = new UserAccount("Layana" , "Baba",
                 "layana" , passwordEncoder.encode("0000"));
