@@ -19,13 +19,36 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
+//@RestController
+@Controller
 public class AccountUserController {
 
     @Autowired
     private UserAccountService userAccountService ;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder ;
+
+    @GetMapping("/")
+    public String getHome(){
+        return "index";
+    }
+
+    @GetMapping("/login")
+    public String getLogin(){
+        return "login";
+    }
+
+    @GetMapping("/signup")
+    public String getSignup(){
+        return "signup";
+    }
+
+    @GetMapping("/homepage")
+    public String getProfile(){
+        return "profile";
+    }
+
+
 
      /**
      *

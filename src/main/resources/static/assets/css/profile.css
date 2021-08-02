@@ -1,0 +1,249 @@
+html {
+    font-size: 100%;
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after,
+h1 {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+body {
+    line-height: 1.3;
+}
+
+.root {
+    width: 100%;
+    display: flex;
+    min-height: 100vh;
+    background-color: #383b47;
+}
+
+.leftSide {
+    width: 20%;
+    display: flex;
+    padding: 4rem 2rem 1rem;
+    align-items: center;
+    border-radius: 0 25px;
+    flex-direction: column;
+    background-color: #323542;
+}
+
+.feed {
+    gap: 1rem;
+    width: 60%;
+    display: flex;
+    padding: 3rem;
+    align-items: center;
+    flex-direction: column;
+    background-color: #383b47;
+}
+
+.rightSide {
+    -width: 20%;
+    border-radius: 25px 0;
+    background-color: #383b47;
+}
+
+.logoBox {
+    width: 100%;
+}
+
+.logo {
+    width: 100%;
+}
+
+.navSide {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.navlink {
+    gap: 0.5rem;
+    color: #f0f1f8;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.navlink:hover {
+    color: #a27efa;
+}
+
+.navlinkLogout {
+    gap: 0.5rem;
+    color: #f0f1f8;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.navlinkLogout:hover {
+    color: #f44336;
+}
+
+.MuiSvgIcon-root {
+    fill: currentColor;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    font-size: 1.5rem;
+    transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+.feedTite {
+    color: #fff;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.postForm {
+    color: #fff;
+    width: 80%;
+    display: flex;
+    padding: 1rem;
+    font-size: 1.4rem;
+    box-shadow: rgb(14 30 37 / 12%) 0px 2px 4px 0px, rgb(14 30 37 / 32%) 0px 2px 16px 0px;
+    border-radius: 12px;
+    flex-direction: column;
+    background-color: #31343e;
+}
+
+.postType {
+    gap: 1rem;
+    display: flex;
+    font-size: 1rem;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.chooseType {
+    color: #fff;
+    border: none;
+    padding: 0.5rem;
+    box-shadow: rgb(14 30 37 / 12%) 0px 2px 4px 0px, rgb(14 30 37 / 32%) 0px 2px 16px 0px;
+    border-radius: 12px;
+    background-color: #31343e;
+}
+
+.chooseType:focus {
+    outline: none;
+}
+
+.post {
+    color: #fff;
+    width: 100%;
+    border: none;
+    height: 14rem;
+    resize: none;
+    padding: 1rem;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    background-color: #31343e;
+}
+
+.post:focus {
+    outline: none;
+    box-shadow: rgb(14 30 37 / 12%) 0px 2px 4px 0px, rgb(14 30 37 / 32%) 0px 2px 16px 0px;
+}
+
+.btnbox {
+    display: flex;
+    font-size: 1rem;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.btnPost {
+    color: white;
+    border: 0;
+    cursor: pointer;
+    padding: 0.5rem 2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 9px;
+    background-color: #a27dfa;
+}
+
+.posts {
+    gap: 2rem;
+    width: 100%;
+    display: flex;
+    padding: 1rem;
+    align-items: center;
+    flex-direction: column;
+}
+
+.postCard {
+    width: 70%;
+    padding: 1rem;
+    box-shadow: rgb(0 0 0 / 19%) 0px 10px 20px, rgb(0 0 0 / 23%) 0px 6px 6px;
+    min-height: 15rem;
+    border-radius: 12px;
+    background-color: #31343e;
+}
+
+.PostProfile {
+    gap: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+.PostProfile img {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+}
+
+.PostProfile p {
+    color: white;
+    font-size: 1.3rem;
+}
+
+.postInfo {
+    color: #fff;
+    margin-top: 0.5rem;
+}
+
+.postBodyDate {
+    font-size: 0.85rem;
+    text-align: end;
+}
+
+.postBodyInfo {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.postBodyType {
+    font-size: 0.9rem;
+    text-align: end;
+}
+
+.postBodyBtnGroup {
+    gap: 1rem;
+    display: flex;
+    margin-top: 1rem;
+}
+
+.postBodyBtn {
+    gap: 0.5rem;
+    color: white;
+    display: flex;
+    padding: 0.2rem 0.4rem;
+    align-items: center;
+    border-radius: 3px;
+    text-decoration: none;
+    background-color: #d35;
+}
