@@ -36,6 +36,7 @@ public class RequestController {
     public ResponseEntity<Request> createNewRequest(@RequestBody Request request){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
+        Iterable req = userAccount.getRequests();
         request.setUserAccount(userAccount);
         LocalDateTime localDateTime = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
