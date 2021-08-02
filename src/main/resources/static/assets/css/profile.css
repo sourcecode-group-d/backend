@@ -241,9 +241,19 @@ body {
     gap: 0.5rem;
     color: white;
     display: flex;
-    padding: 0.2rem 0.4rem;
+    padding: 0.4rem 0.4rem;
     align-items: center;
     border-radius: 3px;
     text-decoration: none;
     background-color: #d35;
+    border: 0;
+    cursor: pointer;
+}
+
+.postBodyBtn:focus {
+    outline: 0;
+}
+
+.postBodyBtn:hover{
+    opacity: 0.7;
 }

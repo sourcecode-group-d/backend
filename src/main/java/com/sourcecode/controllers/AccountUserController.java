@@ -1,10 +1,11 @@
 package com.sourcecode.controllers;
 
 import com.sourcecode.infrastructure.services.UserAccountService;
+import com.sourcecode.models.Request;
 import com.sourcecode.models.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,7 +37,9 @@ public class AccountUserController {
 
         if (userDetails != null) {
             UserAccount user = userAccountService.findUserAccount(userDetails.getName());
+            Iterable<Request> requests =  user.getRequests();
             model.addAttribute("user" , user);
+            model.addAttribute("request",requests);
             return "homepage";
         }
         else {
@@ -95,7 +98,6 @@ public class AccountUserController {
      * @return
      */
     @GetMapping("/profile")
-//    @CrossOrigin(origins = "http://localhost:3000")
     public String getUserAccount(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());

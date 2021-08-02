@@ -19,7 +19,7 @@ public class Request {
 
     private String createdAt ;
 
-    private static Integer likesCounter = 0 ;
+    private Integer likesCounter = 0 ;
 
     @ManyToOne( fetch = FetchType.LAZY )
     private UserAccount userAccount ;
