@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -125,7 +127,7 @@ public class RequestController {
      * @return list of requests for the logged in user's requests
      */
     @GetMapping("/feeds")
-            public List<Request> followingsRequests (){
+      public String followingsRequests (Model model){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount user = userAccountService.findUserAccount(userDetails.getUsername());
        Set<UserAccount> followingAcc = user.getFollowing();
@@ -137,7 +139,17 @@ public class RequestController {
               followingReq.add(oneRequest);
           }
        }
-        return  followingReq;
+       model.addAttribute("user",user);
+
+       return "feeds";
     }
+
+//    @GetMapping("/feeds")
+//    public String getFeeds(Principal principal, Model model){
+//
+//        UserAccount user = userAccountService.findUserAccount(principal.getName());
+//        model.addAttribute("user",user);
+//        return "feeds";
+//    }
 
 }
