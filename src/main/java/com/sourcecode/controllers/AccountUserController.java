@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class AccountUserController {
@@ -96,7 +95,7 @@ public class AccountUserController {
     public String getUserAccount(Model model){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
-        model.addAttribute("appUser" , userAccount) ;
+        model.addAttribute("user" , userAccount) ;
         model.addAttribute("followingNum", userAccount.getFollowing().size());
         model.addAttribute("followerNum", userAccount.getFollowers().size());
         model.addAttribute("deleteAccount", true);
@@ -140,6 +139,7 @@ public class AccountUserController {
     public String getFollowingUsers(Model model){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
+        model.addAttribute("user" , userAccount);
         model.addAttribute("appUsers" , userAccount.getFollowing());
         return "follow" ;
     }
@@ -153,6 +153,7 @@ public class AccountUserController {
     public String getFollwers(Model model){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
+        model.addAttribute("user" , userAccount);
         model.addAttribute("appUsers" , userAccount.getFollowers());
         return "follow" ;
     }
@@ -176,7 +177,7 @@ public class AccountUserController {
         if (userAccount.getFollowers().contains(loggedUser) ){
             model.addAttribute("showButton", false);
         }
-        return "profile";
+        return "profile0";
     }
 
 

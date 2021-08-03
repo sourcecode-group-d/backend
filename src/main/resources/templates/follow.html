@@ -1,16 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>Follow</title>
-</head>
+<html lang="en">
+<head th:replace="fragments/head :: profile"></head>
 <body>
 
-<div th:each="appUser : ${appUsers}">
+<div class="root">
+    <div th:replace="fragments/navbar :: sidenav"></div>
 
-    <a th:href="@{'/user/' +${appUser.getId()}}" th:text="${appUser.getUsername()}"></a>
+    <div class="profile">
+        <section class="hero heroProfile">
+            <div class="heroImgBox">
+                <img class="heroImg" th:src="@{/assets/img/caverpic.jpg}"alt="Banner Image">
+            </div>
+            <div class="heroOverlay"></div>
+            <div class="profileBox">
+                <div class="profilePicBox">
+                    <img
+                        class="profilePic"
+                        src="https://lh3.googleusercontent.com/a-/AOh14GgFHvApPY0ARg25y8rsMJdqdP7KCRj1c3MpNn91fw=s96-c"
+                        alt="Mohammad ِAbu Mattar" title="Mohammad ِAbu Mattar">
+                </div>
+                <div class="profileInfo">
+                    <h1 th:text="${user.firstName} + ' ' +${user.lastName}">></h1>
+                </div>
+            </div>
+        </section>
+        <div class="space"></div>
+        <div class="follow" th:each="userifno : ${appUsers}">
+
+            <a th:href="@{'/user/' +${userifno.id}}" th:text="${userifno.username}"></a>
+
+        </div>
+    </div>
+
 
 </div>
+
+
 
 </body>
 </html>
