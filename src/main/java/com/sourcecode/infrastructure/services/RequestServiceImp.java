@@ -3,10 +3,11 @@ package com.sourcecode.infrastructure.services;
 import com.sourcecode.infrastructure.RequestRepository;
 import com.sourcecode.models.Request;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class RequestServiceImp implements RequestService {
@@ -35,4 +36,9 @@ public class RequestServiceImp implements RequestService {
         requestRepository.deleteById(id);
         return request;
     }
+
+//    @Override
+//    @Query(value = "SELECT f FROM Request f ORDER BY f.likesCounter DESC")
+//    public Request findAllByOrderByLikesCounterDesc() {
+//    }
 }
