@@ -156,6 +156,10 @@ body {
     grid-template-rows: 35rem;
 }
 
+.heroProfile{
+    grid-template-rows: 22rem;
+}
+
 .hero .heroImgBox {
     grid-area: 1/1/2/2;
 }
