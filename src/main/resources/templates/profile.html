@@ -22,7 +22,7 @@
       </div>
       <div class="profileInfo">
         <h1 th:text="${user.firstName} + ' ' +${user.lastName}">></h1>
-        <div th:if="${showFollow == true}">
+        <div>
           <div class="proflieFollowBox" th:if="${showFollow == true}" >
             <a class="proflieFollowLink" href="/following" ><span th:text="${'Following: '+followingNum}"></span></a>
             <a class="proflieFollowLink" href="/followers"><span th:text="${'Followers: '+ followerNum}"></span></a>
@@ -30,6 +30,13 @@
           <div th:unless="${showFollow == true}" >
             <span class="proflieFollowLink" th:text="${'Following: '+followingNum}"></span>
             <span class="proflieFollowLink" th:text="${'Followers: '+ followerNum}"></span>
+          </div>
+          <div>
+            <div th:if="${deleteAccount == true}" >
+              <form method="post" th:action="@{/deleteuser}">
+                <input type="submit" value="Delete Account" class=""/>
+              </form>
+            </div>
           </div>
         </div>
       </div>

@@ -177,6 +177,7 @@ public class AccountUserController {
         model.addAttribute("followingNum", userAccount.getFollowing().size());
         model.addAttribute("followerNum", userAccount.getFollowers().size());
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user" , userAccountService.findUserAccount(userDetails.getUsername()));
         UserAccount loggedUser = userAccountService.findUserAccount(userDetails.getUsername());
         if (loggedUser.getId()!= id) {
             model.addAttribute("showButton", true);
@@ -185,7 +186,7 @@ public class AccountUserController {
         if (userAccount.getFollowers().contains(loggedUser) ){
             model.addAttribute("showButton", false);
         }
-        return "profile0";
+        return "otheruser";
     }
 
 
