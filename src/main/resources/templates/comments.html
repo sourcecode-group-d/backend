@@ -12,10 +12,13 @@
 <h3 th:text="${request.type}"></h3>
 
 
-<ul>
-    <p th:each="post : ${responses}">
-        <span th:text="${post.content}"></span>
-        <span th:text="${post.createdAt}"></span>
+<ul >
+    <p th:each="comment : ${responses}">
+        <span  th:if="${comment.content !=null}">
+             <span th:text="${comment.content}"></span>
+        <span th:text="${comment.createdAt}"></span>
+        </span>
+
     </p>
 </ul>
 <form th:action="'/response/'+${user.id}+'/'+${request.id}" method="post"  >
@@ -23,9 +26,13 @@
     <textarea  name="comment" placeholder="Add Comment ..."></textarea>
     <input type="submit"  >
 </form>
-<!--<p th:each=" comment : ${responses}" >-->
-<!--    <h3 th:text="${comment.content}"></h3>-->
-<!--</p>-->
+<!--<span th:unless="${comment.content == null }">-->
+<!--<span th:each=" comment : ${responses}" >-->
+<!--    <p th:text="${comment.content}"></p>-->
+<!--</span>-->
+
+    </span>
+
 
 
 </body>
