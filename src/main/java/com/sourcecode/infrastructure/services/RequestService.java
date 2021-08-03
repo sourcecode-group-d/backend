@@ -13,4 +13,6 @@ public interface RequestService {
     List<Request> getAllRequest();
 
     Request deleteRequest(Long id);
+
+//    Request findAllByOrderByLikesCounterDesc();
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Feeds</title>
+</head>
+<body>
+<!--    <h1 th:each="following : ${user.following}" >-->
+<!--        <p th:each="request : ${following.requests}">-->
+<!--        <p th:text="${following.firstName}+ ' ' + ${following.lastName}"></p>-->
+<!--      <p th:text="${following}"></p>-->
+<!--      <p th:text="${request}"></p>-->
+<!--&lt;!&ndash;        <p th:text="${request.type}" ></p>&ndash;&gt;-->
+<!--&lt;!&ndash;        <p th:text="${request.content}" ></p>&ndash;&gt;-->
+<!--&lt;!&ndash;        <p th:text="${request.createdAt}" ></p>&ndash;&gt;-->
+<!--        </p>-->
+<!--    </h1>-->
+
+<section th:each="account : ${user.following}">
+  <div th:each="post : ${account.requests}">
+    <div >
+      <img th:src="@{/assets/img/user.png}" />
+      <a th:href="'/user/' + ${account.id}">
+        <p th:text="${account.firstName}+' '+${account.lastName}"></p>
+      </a>
+    </div>
+    <h4 th:text="${post.createdAt}"></h4>
+    <p th:text="${post.content}"></p>
+  </div>
+  </div>
+</section>
+</body>
+</html>
