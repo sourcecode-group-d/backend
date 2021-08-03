@@ -140,6 +140,10 @@ public class AccountUserController {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
         model.addAttribute("user" , userAccount);
+        model.addAttribute("followingNum", userAccount.getFollowing().size());
+        model.addAttribute("followerNum", userAccount.getFollowers().size());
+        model.addAttribute("deleteAccount", true);
+        model.addAttribute("showFollow" , true);
         model.addAttribute("appUsers" , userAccount.getFollowing());
         return "follow" ;
     }
@@ -154,6 +158,10 @@ public class AccountUserController {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
         model.addAttribute("user" , userAccount);
+        model.addAttribute("followingNum", userAccount.getFollowing().size());
+        model.addAttribute("followerNum", userAccount.getFollowers().size());
+        model.addAttribute("deleteAccount", true);
+        model.addAttribute("showFollow" , true);
         model.addAttribute("appUsers" , userAccount.getFollowers());
         return "follow" ;
     }

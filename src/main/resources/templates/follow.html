@@ -21,13 +21,36 @@
                 </div>
                 <div class="profileInfo">
                     <h1 th:text="${user.firstName} + ' ' +${user.lastName}">></h1>
+                    <div th:if="${showFollow == true}">
+                        <div class="proflieFollowBox" th:if="${showFollow == true}" >
+                            <a class="proflieFollowLink" href="/following" ><span th:text="${'Following: '+followingNum}"></span></a>
+                            <a class="proflieFollowLink" href="/followers"><span th:text="${'Followers: '+ followerNum}"></span></a>
+                        </div>
+                        <div th:unless="${showFollow == true}" >
+                            <span class="proflieFollowLink" th:text="${'Following: '+followingNum}"></span>
+                            <span class="proflieFollowLink" th:text="${'Followers: '+ followerNum}"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
         <div class="space"></div>
-        <div class="follow" th:each="userifno : ${appUsers}">
+        <div class="followBox" th:each="userifno : ${appUsers}">
 
-            <a th:href="@{'/user/' +${userifno.id}}" th:text="${userifno.username}"></a>
+            <div class="followInfo">
+                <div class="follow">
+                    <img class="followPic"
+                        src="https://lh3.googleusercontent.com/a-/AOh14GgFHvApPY0ARg25y8rsMJdqdP7KCRj1c3MpNn91fw=s96-c"
+                        alt="">
+                    <div>
+                    <div class="followDetails">
+                        <a class="followNameLink" th:href="@{'/user/' +${userifno.id}}" th:text="${userifno.firstName} + ' ' + ${userifno.lastName}"></a>
+                        <a class="followUsernameLink" th:href="@{'/user/' +${userifno.id}}" th:text="${userifno.username}"></a>
+                    </div>
+                    <p class="followBio" th:text="${userifno.bio}"></p>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>

@@ -391,3 +391,58 @@ body {
 .feedpost{
     margin: 0 auto;
 }
+
+/* follow */
+
+.followBox{
+    width: 80%;
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+}
+
+.followInfo{
+    width: 90%;
+}
+
+.follow{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.followPic{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+.followDetails{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+}
+
+.followNameLink{
+    text-decoration: none;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+}
+
+.followUsernameLink{
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+}
+
+.followNameLink:hover,
+.followUsernameLink:hover{
+    color: #58a6ff;
+}
+
+.followBio{
+    color: white;
+}
