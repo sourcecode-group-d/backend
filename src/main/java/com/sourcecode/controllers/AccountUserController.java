@@ -100,6 +100,7 @@ public class AccountUserController {
         model.addAttribute("followingNum", userAccount.getFollowing().size());
         model.addAttribute("followerNum", userAccount.getFollowers().size());
         model.addAttribute("deleteAccount", true);
+        model.addAttribute("showFollow" , true);
         return "profile";
     }
 
@@ -132,14 +133,28 @@ public class AccountUserController {
 
     /**
      *
-     * @return it will return the list for the followers of the currently logged in useraccount
+     * @param model the model will have the followings' application users
+     * @return the template page follow
      */
-    @GetMapping("/followers")
-    public List<UserAccount> getFollwers(){
+    @GetMapping("/following")
+    public String getFollowingUsers(Model model){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
-        SecurityContextHolder.getContext().getAuthentication();
-        return userAccount.getFollowers() ;
+        model.addAttribute("appUsers" , userAccount.getFollowing());
+        return "follow" ;
+    }
+
+    /**
+     *
+     * @param model the model will have the followers' application users
+     * @return the template page follow
+     */
+    @GetMapping("/followers")
+    public String getFollwers(Model model){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
+        model.addAttribute("appUsers" , userAccount.getFollowers());
+        return "follow" ;
     }
 
     /**

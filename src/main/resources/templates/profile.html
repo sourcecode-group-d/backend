@@ -142,7 +142,14 @@ margin-left: 25%;
       </div>
       <h3 th:text="${appUser.getUsername()}" ></h3>
       <br>
-      <h3 th:text="${'Following: '+followingNum + '. '+ 'Followers: '+ followerNum+'.' }" ></h3>
+      <div th:if="${showFollow == true}" >
+      <a href="/following" ><h3 th:text="${'Following: '+followingNum + '. '}" > </h3></a>
+      <a href="/followers"><h3 th:text="${'Followers: '+ followerNum+'.' }"> </h3></a>
+      </div>
+      <div th:unless="${showFollow == true}" >
+        <h3 th:text="${'Following: '+followingNum + '. '}" > </h3>
+        <h3 th:text="${'Followers: '+ followerNum+'.' }"> </h3>
+      </div>
       <br>
       <h4 id="bio">Bio: </h4>
       <br><br>
