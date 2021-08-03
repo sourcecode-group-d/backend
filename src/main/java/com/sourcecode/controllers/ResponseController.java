@@ -49,13 +49,12 @@ public class ResponseController {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Request req = requestService.findRequest(requestId);
 
-        List <Response> res = new ArrayList<>();
+//        List <Response> res = new ArrayList<>();
         Response response1= new Response(comment);
-        res.add(response1);
-
-        req.setResponses(res);
-//        responseService.createResponse(response1);
-
+//        res.add(response1);
+        response1.setRequest(req);
+//        req.setResponses(res);
+        responseService.createResponse(response1);
         model.addAttribute("response1",response1);
         System.out.println(">>>>>>>>>>>>>>>>>>.Comment <<<<<<<<<<<<<<," +response1.getContent());
        return  new RedirectView("/response/{userId}/{requestId}");
