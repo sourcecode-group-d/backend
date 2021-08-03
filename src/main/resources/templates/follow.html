@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Follow</title>
+</head>
+<body>
+
+<div th:each="appUser : ${appUsers}">
+
+    <a th:href="@{'/user/' +${appUser.getId()}}" th:text="${appUser.getUsername()}"></a>
+
+</div>
+
+</body>
+</html>
