@@ -165,7 +165,7 @@ public class ResponseController {
      * @return the response object
      */
     @PostMapping("/response/likes/{id}")
-    public Response addLike(@PathVariable Long id){
+    public Response addVote(@PathVariable Long id){
         Response response = responseService.findResponse(id);
         response.addLike();
         return responseService.createResponse(response);
@@ -177,7 +177,7 @@ public class ResponseController {
      * @return the response object
      */
     @PostMapping("/response/dislikes/{id}")
-    public Response disLike(@PathVariable Long id){
+    public Response disVote(@PathVariable Long id){
         Response response = responseService.findResponse(id);
         response.dislike();
         response = responseService.createResponse(response);

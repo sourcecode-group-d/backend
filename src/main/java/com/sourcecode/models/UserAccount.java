@@ -48,15 +48,17 @@ public class UserAccount implements UserDetails {
     @ManyToMany(mappedBy = "following", fetch = FetchType.EAGER)
     public List<UserAccount> followers;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "useraccount_role",
-            joinColumns = @JoinColumn(name = "useraccount_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
 
     @ManyToOne
     private Request reqVotes;
+
+    @Basic(fetch=FetchType.EAGER) @Lob
+    @Column(name = "profile_image")
+    private byte[] profileImage;
+
+    @Basic(fetch=FetchType.EAGER) @Lob
+    @Column(name = "cover_image")
+    private byte[] coverImage;
 
     public UserAccount(){}
 
@@ -163,16 +165,10 @@ public class UserAccount implements UserDetails {
         this.dataOfBirth = dataOfBirth;
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<Role> roles= getRoles();
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
-
-        return authorities;
+        return null;
     }
 
     @Override
@@ -205,16 +201,21 @@ public class UserAccount implements UserDetails {
         return true;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public byte[] getProfileImage() {
+        return profileImage;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public byte[] getCoverImage() {
+        return coverImage;
     }
 
-    public void setRole(Role role){
-        roles.add(role);
+    public void setProfileImage(byte[] profileImage) {
+        this.profileImage = profileImage;
     }
+
+    public void setCoverImage(byte[] coverImage) {
+        this.coverImage = coverImage;
+    }
+
 
 }

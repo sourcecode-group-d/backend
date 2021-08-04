@@ -9,15 +9,20 @@
     <div class="profile">
         <section class="hero heroProfile">
             <div class="heroImgBox">
-                <img class="heroImg" th:src="@{/assets/img/caverpic.jpg}"alt="Banner Image">
+                <img th:src="*{'data:image/png;base64,'+ coverImage}"   class="heroImg"
+                     th:if="${showCoverImage == true}" />
+
+                <img class="heroImg" th:src="@{/assets/img/caverpic.jpg}"alt="Banner Image" th:unless="${showCoverImage == true}">
             </div>
             <div class="heroOverlay"></div>
             <div class="profileBox">
                 <div class="profilePicBox">
+                    <img th:src="*{'data:image/png;base64,'+ profileImage}"  class="profilePic"
+                         th:if="${showProfileImage == true}" />
                     <img
-                        class="profilePic"
-                        src="https://lh3.googleusercontent.com/a-/AOh14GgFHvApPY0ARg25y8rsMJdqdP7KCRj1c3MpNn91fw=s96-c"
-                        alt="Mohammad ِAbu Mattar" title="Mohammad ِAbu Mattar">
+                            class="profilePic"
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/512px-Circle-icons-profile.svg.png"
+                            alt="Mohammad ِAbu Mattar" title="Mohammad ِAbu Mattar" th:unless="${showProfileImage == true}">
                 </div>
                 <div class="profileInfo">
                     <h1 th:text="${user.firstName} + ' ' +${user.lastName}">></h1>
