@@ -110,6 +110,11 @@ public class AccountUserController {
         return "homepage";
     }
 
+    @GetMapping("game")
+    public String getGame(){
+        return "game";
+    }
+
 
     /**
      * @param username
