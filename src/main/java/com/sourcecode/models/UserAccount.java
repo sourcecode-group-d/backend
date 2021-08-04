@@ -48,12 +48,6 @@ public class UserAccount implements UserDetails {
     @ManyToMany(mappedBy = "following", fetch = FetchType.EAGER)
     public List<UserAccount> followers;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "useraccount_role",
-            joinColumns = @JoinColumn(name = "useraccount_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
 
     @ManyToOne
     private Request reqVotes;
@@ -163,16 +157,10 @@ public class UserAccount implements UserDetails {
         this.dataOfBirth = dataOfBirth;
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<Role> roles= getRoles();
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
-
-        return authorities;
+        return null;
     }
 
     @Override
@@ -205,16 +193,5 @@ public class UserAccount implements UserDetails {
         return true;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public void setRole(Role role){
-        roles.add(role);
-    }
 
 }
