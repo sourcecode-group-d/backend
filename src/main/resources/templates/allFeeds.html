@@ -11,13 +11,13 @@
     <div class="profile">
         <div class="space"></div>
 
-        <div th:each=" account :${allUsers}">
-            <div class="postCard" th:each="post : ${account.requests}">
+<!--        <div th:each=" account :${allUsers}">-->
+            <div class="postCard" th:each="post : ${reqFiltered}">
                 <div class="PostProfile">
                     <img
                             src="https://lh3.googleusercontent.com/a-/AOh14GgFHvApPY0ARg25y8rsMJdqdP7KCRj1c3MpNn91fw=s96-c"
                             alt="Mohammad ِAbu Mattar" title="Mohammad ِAbu Mattar">
-                    <p th:text="${account.firstName} +' '+ ${account.getLastName()}"></p>
+                    <p th:text="${post.userAccount.firstName} +' '+ ${post.userAccount.getLastName()}"></p>
                 </div>
                 <div class="postInfo">
                     <div th:text="${post.createdAt}" class="postBodyDate"></div>
@@ -56,7 +56,7 @@
                 </div>
             </div>
 
-        </div>
+<!--        </div>-->
 
     </div>
 

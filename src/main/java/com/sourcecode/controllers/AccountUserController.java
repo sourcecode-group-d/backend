@@ -252,8 +252,19 @@ public class AccountUserController {
      * @return
      */
     @GetMapping("/user/{id}")
-    public String getUserInfo(@PathVariable Long id, Model model) {
+    public String getUserInfo(@PathVariable Long id, Model model) throws UnsupportedEncodingException {
         UserAccount userAccount = userAccountService.findUserAccount(id);
+        if (userAccount.getProfileImage() != null) {
+            model.addAttribute("showProfileImage", true);
+            byte[] encodeProfileImage = java.util.Base64.getEncoder().encode(userAccount.getProfileImage());
+            model.addAttribute("profileImage", new String(encodeProfileImage, "UTF-8"));
+        }
+
+        if (userAccount.getCoverImage() != null) {
+            model.addAttribute("showCoverImage", true);
+            byte[] encodeCoverImage = java.util.Base64.getEncoder().encode(userAccount.getCoverImage());
+            model.addAttribute("coverImage", new String(encodeCoverImage, "UTF-8"));
+        }
         model.addAttribute("appUser", userAccount);
         model.addAttribute("followingNum", userAccount.getFollowing().size());
         model.addAttribute("followerNum", userAccount.getFollowers().size());
