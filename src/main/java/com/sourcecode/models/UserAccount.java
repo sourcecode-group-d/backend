@@ -74,6 +74,14 @@ public class UserAccount implements UserDetails {
         this.password = password;
     }
 
+    public UserAccount(String firstName, String lastName, String username, String password, String bio) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.bio = bio;
+    }
+
 
 
     public Long getId() {

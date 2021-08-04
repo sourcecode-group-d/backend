@@ -65,7 +65,7 @@ body {
     gap: 1rem;
 }
 
-.userName{
+.userName {
     color: white;
     font-weight: bold;
     font-size: 1.3rem;
@@ -260,17 +260,17 @@ body {
     outline: 0;
 }
 
-.postBodyBtn:hover{
+.postBodyBtn:hover {
     opacity: 0.7;
 }
 
 /* profile */
 
-.profile{
+.profile {
     width: 80%;
 }
 
-.hero{
+.hero {
     color: white;
     display: grid;
     grid-template-columns: 1fr;
@@ -281,7 +281,7 @@ body {
     justify-content: center;
 }
 
-.heroProfile{
+.heroProfile {
     grid-template-rows: 22rem;
 }
 
@@ -295,7 +295,7 @@ body {
 }
 
 .hero .heroTextBox,
-.hero .heroFormBox{
+.hero .heroFormBox {
     grid-area: 1/1/2/2;
 }
 
@@ -315,7 +315,7 @@ body {
 }
 
 .heroTextBox,
-.heroFormBox{
+.heroFormBox {
     display: grid;
     align-items: center;
     justify-self: center;
@@ -323,7 +323,7 @@ body {
     margin-right: 15px;
 }
 
-.heroFormBox{
+.heroFormBox {
     width: 100%;
 }
 
@@ -336,38 +336,68 @@ body {
 
 /* profile image */
 
-.profileBox{
-    position: absolute;
+.profileBox {
     align-items: center;
     display: flex;
     gap: 2rem;
-    left: 30%;
-    top: 35%;
+    flex-direction: column;
 }
 
-.profilePic{
-    width: 100%;
+.profilePic {
+    width: 7.8rem;
+    height: 7.8rem;
     border-radius: 50%;
 }
 
-.profilePicBox{
+.profilePicBox {
     width: 8rem;
     height: 8rem;
     border: 2px solid;
     border-radius: 50%;
 }
 
-.profileInfo{
-    display: flex;
-    flex-direction: column;
+.profileUsername {
+    font-size: 1.8rem;
+    font-weight: bold;
 }
 
-.proflieFollowBox{
+.profileBoxInfo {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.profileInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    box-shadow: rgb(14 30 37 / 12%) 0px 2px 4px 0px, rgb(14 30 37 / 32%) 0px 2px 16px 0px;
+    background: rgb(163, 126, 251);
+    background: radial-gradient(circle, rgba(163, 126, 251, 1) 0%, rgba(56, 59, 71, 1) 100%);
+    color: white;
+}
+
+.profileBio {
+    width: 20rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.proflieBoxBtn {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.proflieFollowBox {
     display: flex;
     gap: 1rem;
 }
 
-.proflieFollowLink{
+.proflieFollowLink {
     background-color: transparent;
     text-decoration: none;
     cursor: pointer;
@@ -375,63 +405,103 @@ body {
     user-select: none;
 }
 
-.proflieFollowLink:hover{
+.proflieFollowLink:hover {
     color: #58a6ff;
 }
 
-.space{
+.profileBoxForms {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.uploadImg {
+    border: 0;
+    cursor: pointer;
+    padding: 0.5rem;
+    background-color: #5E35B1;
+    border-radius: 7px;
+    color: white;
+    box-shadow: rgb(14 30 37 / 12%) 0px 2px 4px 0px, rgb(14 30 37 / 32%) 0px 2px 16px 0px;
+}
+
+.deleteAccount {
+    border-radius: 10px;
+    border: 0;
+    cursor: pointer;
+    background-color: #EF5350;
+    box-shadow: rgb(14 30 37 / 12%) 0px 2px 4px 0px, rgb(14 30 37 / 32%) 0px 2px 16px 0px;
+}
+
+.deleteAccount:hover {
+    background-color: #C62828;
+}
+
+.deleteAccountInfo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.5rem;
+    gap: 1rem;
+    color: white;
+    border: 0;
+    border-radius: 7px;
+}
+
+.space {
     width: 100%;
     height: 4rem;
 }
 
-.feeds{
+.feeds {
     width: 100%;
 }
 
-.feedpost{
+.feedpost {
     margin: 0 auto;
 }
 
 /* follow */
 
-.followBox{
+.followBox {
     width: 80%;
     display: flex;
     margin: 0 auto;
     flex-direction: column;
 }
 
-.followInfo{
+.followInfo {
     width: 90%;
 }
 
-.follow{
+.follow {
     display: flex;
     align-items: center;
     gap: 2rem;
 }
 
-.followPic{
+.followPic {
     border-radius: 50%;
     width: 100px;
     height: 100px;
 }
 
-.followDetails{
+.followDetails {
     display: flex;
     flex-direction: row;
     gap: 1rem;
     align-items: center;
 }
 
-.followNameLink{
+.followNameLink {
     text-decoration: none;
     font-size: 2rem;
     color: white;
     cursor: pointer;
 }
 
-.followUsernameLink{
+.followUsernameLink {
     font-size: 1.2rem;
     text-decoration: none;
     color: white;
@@ -439,57 +509,56 @@ body {
 }
 
 .followNameLink:hover,
-.followUsernameLink:hover{
+.followUsernameLink:hover {
     color: #58a6ff;
 }
 
-.followBio{
+.followBio {
     color: white;
 }
 
 /* code challenge */
 
 
-.codeChallengeBox{
+.codeChallengeBox {
     color: white;
     padding: 3rem 2rem 1rem;
     margin-top: 7.1rem;
     margin-right: 3rem;
     box-shadow: rgb(14 30 37 / 12%) 0px 2px 4px 0px, rgb(14 30 37 / 32%) 0px 2px 16px 0px;
     border-radius: 12px;
-    background: rgb(102,103,122);
+    background: rgb(102, 103, 122);
     background: linear-gradient(
-            141deg
-            , rgba(102,103,122,1) 0%, rgba(66,67,85,1) 35%);
+            141deg, rgba(102, 103, 122, 1) 0%, rgba(66, 67, 85, 1) 35%);
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-.codeChallengeBoxTitle{
+.codeChallengeBoxTitle {
     font-weight: bold;
     font-size: 2rem;
     text-align: center;
     text-transform: capitalize;
 }
 
-.codeChallengeTitle{
+.codeChallengeTitle {
     font-size: 1.5rem;
     font-weight: bold;
 }
 
 .codeChallengeCategory,
-.codeChallengeSubTitle{
+.codeChallengeSubTitle {
     text-transform: capitalize;
     font-weight: bold;
     font-size: 1.2rem;
 }
 
-.codeChallengeDescription{
+.codeChallengeDescription {
     word-wrap: break-word;
 }
 
-.codeChallengeLink{
+.codeChallengeLink {
     text-align: center;
     color: white;
     text-decoration: none;
