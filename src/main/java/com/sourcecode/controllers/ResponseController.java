@@ -43,8 +43,10 @@ public class ResponseController {
      * @return redirect to /comments endpoint
      */
     @PostMapping ("/response/{userId}/{requestId}")
-    public RedirectView  addingCommentstoPosts(@PathVariable Long userId , @PathVariable Long requestId  ,
-                                               String comment , Model model){
+    public RedirectView  addingCommentstoPosts(
+            @PathVariable Long userId ,
+            @PathVariable Long requestId  ,
+            String comment , Model model){
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Request req = requestService.findRequest(requestId);

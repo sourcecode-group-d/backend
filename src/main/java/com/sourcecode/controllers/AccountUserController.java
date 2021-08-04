@@ -79,8 +79,13 @@ public class AccountUserController {
 
             UserAccount user = userAccountService.findUserAccount(userDetails.getName());
             List<Request> req = requestService.findAllByMostLikes();
+            List<Request> userReq= new ArrayList<>();
+            for (Request one: req){
+                if (one.getUserAccount()==user)
+                    userReq.add(one);
+            }
 
-            model.addAttribute("allReq", req);
+            model.addAttribute("allReq", userReq);
             model.addAttribute("user", user);
             model.addAttribute("api", codeChallenge);
 
