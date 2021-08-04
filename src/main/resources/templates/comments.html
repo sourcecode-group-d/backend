@@ -1,33 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title> Comments </title>
-</head>
+<head th:replace="fragments/head :: profile"></head>
 <body>
-<h1 th:text="${user.id}"> </h1>
-<h2 th:text="${userPost.firstName} +' ' +${userPost.lastName}"></h2>
-<h3 th:text="${request.content}"></h3>
-<h3 th:text="${request.createdAt}"></h3>
-<h3 th:text="${request.type}"></h3>
+
+<div class="root">
+  <div th:replace="fragments/navbar :: sidenav"></div>
+
+  <div class="profile">
+    <div class="space"></div>
+
+    <div class="posts">
+      <section class="feeds">
+        <div class="postCard feedpost">
+          <div class="PostProfile">
+            <img th:src="*{'data:image/png;base64,'+ profileImage}"
+                 th:if="${showProfileImage == true}"/>
+            <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/512px-Circle-icons-profile.svg.png"
+                th:alt="${userPost.firstName} + ' ' +${userPost.lastName}"
+                th:title="${userPost.firstName} + ' ' +${userPost.lastName}"
+                th:unless="${showProfileImage == true}">
+            <p th:text="${userPost.firstName} +' ' +${userPost.lastName}"></p>
+          </div>
+          <div class="postInfo">
+            <div th:text="${request.createdAt}" class="postBodyDate"></div>
+            <div th:text="${request.content}" class="postBodyInfo"></div>
+            <div th:text="${request.type}" class="postBodyType"></div>
+          </div>
+
+          <form class="commentForm" th:action="'/response/'+${user.id}+'/'+${request.id}" method="post">
+            <textarea name="comment" class="commenTextarea"
+                      placeholder="Add Comment ..."></textarea>
+            <input class="commentBtn" type="submit">
+          </form>
+
+<div class="eachComments">
+          <p class="eachComment" th:each="comment : ${responses}">
+        <span th:if="${comment.content !=null}">
+            <span th:text="${comment.content}"></span>
+            <span th:text="${comment.createdAt}"></span>
+          </span>
+          </p>
+
+</div>
+
+        </div>
 
 
-<ul >
-    <p th:each="comment : ${responses}">
-        <span  th:if="${comment.content !=null}">
-             <span th:text="${comment.content}"></span>
-        <span th:text="${comment.createdAt}"></span>
-        </span>
+      </section>
+    </div>
 
-    </p>
-</ul>
-<form th:action="'/response/'+${user.id}+'/'+${request.id}" method="post"  >
+    <!--        <div class="posts">-->
+    <!--            <h1 th:text="${user.id}"> </h1>-->
+    <!--            <h2 th:text="${userPost.firstName} +' ' +${userPost.lastName}"></h2>-->
+    <!--            <h3 th:text="${request.content}"></h3>-->
+    <!--            <h3 th:text="${request.createdAt}"></h3>-->
+    <!--            <h3 th:text="${request.type}"></h3>-->
 
-    <textarea  name="comment" placeholder="Add Comment ..."></textarea>
-    <input type="submit"  >
-</form>
-    </span>
+    <!--            <form th:action="'/response/'+${user.id}+'/'+${request.id}" method="post"  >-->
 
+    <!--                <textarea  name="comment" placeholder="Add Comment ..."></textarea>-->
+    <!--                <input type="submit"  >-->
+    <!--            </form>-->
+
+    <!--            <ul >-->
+    <!--                <p th:each="comment : ${responses}">-->
+    <!--        <span  th:if="${comment.content !=null}">-->
+    <!--             <span th:text="${comment.content}"></span>-->
+    <!--        <span th:text="${comment.createdAt}"></span>-->
+    <!--        </span>-->
+
+    <!--                </p>-->
+    <!--            </ul>-->
+
+    <!--        </div>-->
+
+  </div>
+
+
+</div>
 
 
 </body>

@@ -4,65 +4,76 @@
 <body>
 
 <div class="root">
-    <div th:replace="fragments/navbar :: sidenav"></div>
+  <div th:replace="fragments/navbar :: sidenav"></div>
 
-    <div class="profile">
-        <section class="hero heroProfile">
-            <div class="heroImgBox">
-                <img th:src="*{'data:image/png;base64,'+ coverImage}"   class="heroImg"
-                     th:if="${showCoverImage == true}" />
+  <div class="profile">
+    <section class="hero heroProfile">
+      <div class="heroImgBox">
+        <img th:src="*{'data:image/png;base64,'+ coverImage}" class="heroImg"
+             th:if="${showCoverImage == true}"/>
 
-                <img class="heroImg" th:src="@{/assets/img/caverpic.jpg}"alt="Banner Image" th:unless="${showCoverImage == true}">
-            </div>
-            <div class="heroOverlay"></div>
-            <div class="profileBox">
-                <div class="profilePicBox">
-                    <img th:src="*{'data:image/png;base64,'+ profileImage}"  class="profilePic"
-                         th:if="${showProfileImage == true}" />
-                    <img
-                            class="profilePic"
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/512px-Circle-icons-profile.svg.png"
-                            alt="Mohammad ِAbu Mattar" title="Mohammad ِAbu Mattar" th:unless="${showProfileImage == true}">
-                </div>
-                <div class="profileInfo">
-                    <h1 th:text="${user.firstName} + ' ' +${user.lastName}">></h1>
-                    <div th:if="${showFollow == true}">
-                        <div class="proflieFollowBox" th:if="${showFollow == true}" >
-                            <a class="proflieFollowLink" href="/following" ><span th:text="${'Following: '+followingNum}"></span></a>
-                            <a class="proflieFollowLink" href="/followers"><span th:text="${'Followers: '+ followerNum}"></span></a>
-                        </div>
-                        <div th:unless="${showFollow == true}" >
-                            <span class="proflieFollowLink" th:text="${'Following: '+followingNum}"></span>
-                            <span class="proflieFollowLink" th:text="${'Followers: '+ followerNum}"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <div class="space"></div>
-        <div class="followBox" th:each="userifno : ${appUsers}">
+        <img class="heroImg" th:src="@{/assets/img/caverpic.jpg}" alt="Banner Image"
+             th:unless="${showCoverImage == true}">
+      </div>
+      <div class="heroOverlay"></div>
+      <div class="heroTextBox">
 
-            <div class="followInfo">
-                <div class="follow">
-                    <img class="followPic"
-                        src="https://lh3.googleusercontent.com/a-/AOh14GgFHvApPY0ARg25y8rsMJdqdP7KCRj1c3MpNn91fw=s96-c"
-                        alt="">
-                    <div>
-                    <div class="followDetails">
-                        <a class="followNameLink" th:href="@{'/user/' +${userifno.id}}" th:text="${userifno.firstName} + ' ' + ${userifno.lastName}"></a>
-                        <a class="followUsernameLink" th:href="@{'/user/' +${userifno.id}}" th:text="${userifno.username}"></a>
-                    </div>
-                    <p class="followBio" th:text="${userifno.bio}"></p>
-                    </div>
-                </div>
-            </div>
+        <div class="profileBox">
+          <div class="profilePicBox">
+            <img th:src="*{'data:image/png;base64,'+ profileImage}" class="profilePic"
+                 th:if="${showProfileImage == true}"/>
+            <img
+                class="profilePic"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/512px-Circle-icons-profile.svg.png"
+                th:alt="${user.firstName} + ' ' +${user.lastName}"
+                title="${user.firstName} + ' ' +${user.lastName}"
+                th:unless="${showProfileImage == true}">
+
+
+          </div>
+
+          <h1 th:text="${user.firstName} + ' ' +${user.lastName}"></h1>
+
+          <p class="profileUsername" th:text="${user.username}"></p>
+
+          <div class="proflieFollowBox" th:if="${showFollow == true}">
+            <a class="proflieFollowLink" href="/following"><span
+                th:text="${'Following: '+followingNum}"></span></a>
+            <a class="proflieFollowLink" href="/followers"><span
+                th:text="${'Followers: '+ followerNum}"></span></a>
+          </div>
+          <div th:unless="${showFollow == true}">
+            <span class="proflieFollowLink" th:text="${'Following: '+followingNum}"></span>
+            <span class="proflieFollowLink" th:text="${'Followers: '+ followerNum}"></span>
+          </div>
 
         </div>
+
+      </div>
+
+    </section>
+    <div class="space"></div>
+    <div class="followBox" th:each="userifno : ${appUsers}">
+
+      <div class="followInfo">
+        <div class="follow">
+          <div>
+            <div class="followDetails">
+              <a class="followNameLink" th:href="@{'/user/' +${userifno.id}}"
+                 th:text="${userifno.firstName} + ' ' + ${userifno.lastName}"></a>
+              <a class="followUsernameLink" th:href="@{'/user/' +${userifno.id}}"
+                 th:text="${userifno.username}"></a>
+            </div>
+            <p class="followBio" th:text="${userifno.bio}"></p>
+          </div>
+        </div>
+      </div>
+
     </div>
+  </div>
 
 
 </div>
-
 
 
 </body>

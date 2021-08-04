@@ -161,6 +161,8 @@ public class RequestController {
 
         UserAccount user = userAccountService.findUserAccount(principal.getName());
         List<UserAccount> allUsers= new ArrayList<>(userAccountService.findAllUsers());
+        List<Request> req = requestService.findAllByMostLikes();
+        m.addAttribute("reqFiltered" , req);
         allUsers.remove(user);
         m.addAttribute("allUsers" , allUsers);
         m.addAttribute("user", user );

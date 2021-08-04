@@ -10,19 +10,26 @@
   <div class="profile">
     <section class="hero heroProfile">
       <div class="heroImgBox">
-        <img class="heroImg" th:src="@{/assets/img/caverpic.jpg}"alt="Banner Image">
+        <img th:src="*{'data:image/png;base64,'+ coverImage}"   class="heroImg"
+             th:if="${showCoverImage == true}" />
+
+        <img class="heroImg" th:src="@{/assets/img/caverpic.jpg}"alt="Banner Image" th:unless="${showCoverImage == true}">
       </div>
       <div class="heroOverlay"></div>
+      <div  class="heroTextBox">
       <div class="profileBox">
         <div class="profilePicBox">
+          <img th:src="*{'data:image/png;base64,'+ profileImage}"  class="profilePic"
+               th:if="${showProfileImage == true}" />
           <img
               class="profilePic"
-              src="https://lh3.googleusercontent.com/a-/AOh14GgFHvApPY0ARg25y8rsMJdqdP7KCRj1c3MpNn91fw=s96-c"
-              alt="Mohammad ِAbu Mattar" title="Mohammad ِAbu Mattar">
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/512px-Circle-icons-profile.svg.png"
+              th:alt="${user.firstName} + ' ' +${user.lastName}"
+              title="${user.firstName} + ' ' +${user.lastName}" th:unless="${showProfileImage == true}">
         </div>
-        <div class="profileInfo">
+        <div class="">
           <h1 th:text="${appUser.firstName} + ' ' +${appUser.lastName}">></h1>
-          <div>
+          <div class="appUserInfo">
             <div class="proflieFollowBox" th:if="${showFollow == true}" >
               <a class="proflieFollowLink" href="/following" ><span th:text="${'Following: '+followingNum}"></span></a>
               <a class="proflieFollowLink" href="/followers"><span th:text="${'Followers: '+ followerNum}"></span></a>
@@ -33,12 +40,26 @@
             </div>
             <div th:if="${showButton == true}" >
               <form method="post" th:action="@{'/following/'+${appUser.getId()}}">
-                <input type="submit" value="Follow" class=""/>
+                <button type="submit" value="" class="appUserFollow">
+                  <span class="appUserFollowInfo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                    <span>
+                      Follow
+                    </span>
+                  </span>
+                </button>
               </form>
             </div>
             <div th:if="${showButton == false}" >
               <form method="post" th:action="@{'/unfollow/'+${appUser.getId()}}">
-                <input type="submit" value="UnFollow" class=""/>
+                <button type="submit" value="" class="appUserUnFollow">
+                  <span class="appUserFollowInfo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                    <span>
+                      Follow
+                    </span>
+                  </span>
+                </button>
               </form>
             </div>
             <div th:if="${deleteAccount == true}" >
@@ -48,6 +69,7 @@
             </div>
           </div>
         </div>
+      </div>
       </div>
     </section>
     <div class="space"></div>

@@ -1,9 +1,11 @@
-<div class="posts" th:fragment="codes">
-
-    <p th:text="${api.name}"></p>
-    <p th:text="${api.category}"></p>
+<div class="codeChallengeBox" th:fragment="codes">
+<p class="codeChallengeBoxTitle">code Challenge</p>
+    <p class="codeChallengeTitle" th:text="${api.name}"></p>
+    <p class="codeChallengeCategory" th:text="${api.category}"></p>
+  <p class="codeChallengeSubTitle">Languages</p>
     <p th:text="${api.languages}"></p>
-    <p th:text="${api.description}"></p>
+  <p class="codeChallengeSubTitle">Description:</p>
+    <p class="codeChallengeDescription" th:text="${api.description}"></p>
 
-     <a th:href="${api.url}"> Check Challenge </a>
+     <a class="codeChallengeLink" th:href="${api.url}"> Check Challenge </a>
 </div>

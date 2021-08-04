@@ -10,5 +10,5 @@ import javax.transaction.Transactional;
 @Repository
 @Transactional
 public interface UserAccountRepository extends JpaRepository<UserAccount , Long> {
-    UserAccount findUserAccountByUsername(String username) ;
+    UserAccount findUserAccountByUsername(String username);
 }
