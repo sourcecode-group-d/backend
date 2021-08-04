@@ -5,6 +5,8 @@ import com.sourcecode.models.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserAccountServiceImp implements UserAccountService {
 
@@ -30,5 +32,10 @@ public class UserAccountServiceImp implements UserAccountService {
         UserAccount userAccount = userAccountRepository.findUserAccountByUsername(username);
         userAccountRepository.deleteById(userAccount.getId());
         return userAccount;
+    }
+
+    @Override
+    public List<UserAccount> findAllUsers() {
+       return  userAccountRepository.findAll();
     }
 }

@@ -5,6 +5,8 @@ import com.sourcecode.infrastructure.services.UserAccountService;
 import com.sourcecode.models.Request;
 import com.sourcecode.models.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -51,6 +53,7 @@ public class RequestController {
      */
     @GetMapping("/request")
     public List<Request> getAllRequests(){
+
         return requestService.getAllRequest();
     }
 
@@ -119,7 +122,7 @@ public class RequestController {
         userAccountService.createUserAccount(userAccount);
         request.dislike(userAccount);
         requestService.createRequest(request);
-        return new RedirectView("/") ;
+        return new RedirectView("/**") ;
     }
 
     /**
@@ -151,5 +154,18 @@ public class RequestController {
         model.addAttribute("user",user);
         return "feeds";
     }
+
+
+    @GetMapping("/qa")
+    public String getAllRequests2(Principal principal , Model m) {
+
+        UserAccount user = userAccountService.findUserAccount(principal.getName());
+        List<UserAccount> allUsers= new ArrayList<>(userAccountService.findAllUsers());
+        allUsers.remove(user);
+        m.addAttribute("allUsers" , allUsers);
+        m.addAttribute("user", user );
+        return  "allFeeds";
+    }
+
 
 }

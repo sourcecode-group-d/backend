@@ -22,7 +22,7 @@ public class Request {
     private String createdAt ;
 
     private Integer likesCounter = 0 ;
-
+@JsonIgnore
     @OneToMany( mappedBy = "reqVotes" , fetch = FetchType.LAZY , orphanRemoval = true)
     private Set<UserAccount> voters = new HashSet<>();
 

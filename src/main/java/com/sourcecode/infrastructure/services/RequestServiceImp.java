@@ -37,8 +37,22 @@ public class RequestServiceImp implements RequestService {
         return request;
     }
 
+    @Override
+    public List<Request> findAllByMostLikes() {
+        return requestRepository.findAllByMostLikes();
+    }
+
+
+
 //    @Override
 //    @Query(value = "SELECT f FROM Request f ORDER BY f.likesCounter DESC")
 //    public Request findAllByOrderByLikesCounterDesc() {
 //    }
+
+
+
+
+
+
 }
+

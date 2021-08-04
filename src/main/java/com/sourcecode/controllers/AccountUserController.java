@@ -1,6 +1,8 @@
 package com.sourcecode.controllers;
 
+import com.sourcecode.infrastructure.services.RequestService;
 import com.sourcecode.infrastructure.services.UserAccountService;
+import com.sourcecode.models.Request;
 import com.sourcecode.models.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class AccountUserController {
@@ -27,11 +30,17 @@ public class AccountUserController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder ;
 
+    @Autowired
+    private RequestService requestService ;
+
     @GetMapping("/")
     public String getHome(Principal userDetails , Model model ){
 
         if (userDetails != null) {
             UserAccount user = userAccountService.findUserAccount(userDetails.getName());
+            List<Request> req = requestService.findAllByMostLikes();
+
+            model.addAttribute("allReq", req);
             model.addAttribute("user" , user);
             return "homepage";
         }
@@ -204,6 +213,12 @@ public class AccountUserController {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         return new RedirectView("/");
+    }
+
+
+    @GetMapping ("/aboutus")
+    public String aboutUsPage(){
+        return "aboutus";
     }
 
 }
