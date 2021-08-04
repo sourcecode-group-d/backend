@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
@@ -46,42 +47,43 @@ public class AccountUserController {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    private RequestService requestService ;
+    private RequestService requestService;
 
     @GetMapping("/")
     public String getHome(Principal userDetails, Model model) {
-        String[] cch = {
-                "valid-braces",
-                "fizz-buzz",
-                "counting-sheep",
-                "remove-string-spaces",
-                "sort-the-odd",
-                "fake-binary",
-                "reverse-a-singly-linked-list",
-                "find-max-tree-node",
-                "stop-gninnips-my-sdrow",
-                "perimeter-of-squares-in-a-rectangle",
-                "fibonacci",
-                "quick-n-choose-k-calculator",
-                "factorial"
-        };
-
-        String api_url = "https://www.codewars.com/api/v1/code-challenges/";
-
-        int randomChallenge = (int) Math.floor(Math.random() * (cch.length - 1 + 1) + 0);
-
-        String url = api_url + "/" + cch[randomChallenge];
-
-        codeChallenge = restTemplate.getForObject(url, CodeChallenge.class);
-        System.out.println(codeChallenge);
         if (userDetails != null) {
+
+            String[] cch = {
+                    "valid-braces",
+                    "fizz-buzz",
+                    "counting-sheep",
+                    "remove-string-spaces",
+                    "sort-the-odd",
+                    "fake-binary",
+                    "reverse-a-singly-linked-list",
+                    "find-max-tree-node",
+                    "stop-gninnips-my-sdrow",
+                    "perimeter-of-squares-in-a-rectangle",
+                    "fibonacci",
+                    "quick-n-choose-k-calculator",
+                    "factorial"
+            };
+
+            String api_url = "https://www.codewars.com/api/v1/code-challenges/";
+
+            int randomChallenge = (int) Math.floor(Math.random() * (cch.length - 1 + 1) + 0);
+
+            String url = api_url + "/" + cch[randomChallenge];
+
+            codeChallenge = restTemplate.getForObject(url, CodeChallenge.class);
+
             UserAccount user = userAccountService.findUserAccount(userDetails.getName());
             List<Request> req = requestService.findAllByMostLikes();
 
             model.addAttribute("allReq", req);
-            model.addAttribute("user" , user);
-            model.addAttribute("api",codeChallenge);
-           
+            model.addAttribute("user", user);
+            model.addAttribute("api", codeChallenge);
+
             return "homepage";
         } else {
             return "index";
@@ -141,16 +143,14 @@ public class AccountUserController {
     public String getUserAccount(Model model) throws UnsupportedEncodingException {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
-        if (userAccount.getProfileImage() != null)
-        {
-            model.addAttribute("showProfileImage" , true);
+        if (userAccount.getProfileImage() != null) {
+            model.addAttribute("showProfileImage", true);
             byte[] encodeProfileImage = java.util.Base64.getEncoder().encode(userAccount.getProfileImage());
             model.addAttribute("profileImage", new String(encodeProfileImage, "UTF-8"));
         }
 
-        if (userAccount.getCoverImage() != null)
-        {
-            model.addAttribute("showCoverImage" , true);
+        if (userAccount.getCoverImage() != null) {
+            model.addAttribute("showCoverImage", true);
             byte[] encodeCoverImage = java.util.Base64.getEncoder().encode(userAccount.getCoverImage());
             model.addAttribute("coverImage", new String(encodeCoverImage, "UTF-8"));
         }
@@ -196,16 +196,14 @@ public class AccountUserController {
     public String getFollowingUsers(Model model) throws UnsupportedEncodingException {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
-        if (userAccount.getProfileImage() != null)
-        {
-            model.addAttribute("showProfileImage" , true);
+        if (userAccount.getProfileImage() != null) {
+            model.addAttribute("showProfileImage", true);
             byte[] encodeProfileImage = java.util.Base64.getEncoder().encode(userAccount.getProfileImage());
             model.addAttribute("profileImage", new String(encodeProfileImage, "UTF-8"));
         }
 
-        if (userAccount.getCoverImage() != null)
-        {
-            model.addAttribute("showCoverImage" , true);
+        if (userAccount.getCoverImage() != null) {
+            model.addAttribute("showCoverImage", true);
             byte[] encodeCoverImage = java.util.Base64.getEncoder().encode(userAccount.getCoverImage());
             model.addAttribute("coverImage", new String(encodeCoverImage, "UTF-8"));
         }
@@ -226,16 +224,14 @@ public class AccountUserController {
     public String getFollwers(Model model) throws UnsupportedEncodingException {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
-        if (userAccount.getProfileImage() != null)
-        {
-            model.addAttribute("showProfileImage" , true);
+        if (userAccount.getProfileImage() != null) {
+            model.addAttribute("showProfileImage", true);
             byte[] encodeProfileImage = java.util.Base64.getEncoder().encode(userAccount.getProfileImage());
             model.addAttribute("profileImage", new String(encodeProfileImage, "UTF-8"));
         }
 
-        if (userAccount.getCoverImage() != null)
-        {
-            model.addAttribute("showCoverImage" , true);
+        if (userAccount.getCoverImage() != null) {
+            model.addAttribute("showCoverImage", true);
             byte[] encodeCoverImage = java.util.Base64.getEncoder().encode(userAccount.getCoverImage());
             model.addAttribute("coverImage", new String(encodeCoverImage, "UTF-8"));
         }
@@ -291,13 +287,13 @@ public class AccountUserController {
     }
 
 
-    @GetMapping ("/aboutus")
-    public String aboutUsPage(){
+    @GetMapping("/aboutus")
+    public String aboutUsPage() {
         return "aboutus";
     }
 
     @PostMapping("/profileimage")
-    public RedirectView uploadProfileImage( @RequestParam("file") MultipartFile file) throws IOException {
+    public RedirectView uploadProfileImage(@RequestParam("file") MultipartFile file) throws IOException {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
         byte[] image = file.getBytes();
@@ -308,7 +304,7 @@ public class AccountUserController {
     }
 
     @PostMapping("/coverimage")
-    public RedirectView uploadCoverImage( @RequestParam("file") MultipartFile file) throws IOException {
+    public RedirectView uploadCoverImage(@RequestParam("file") MultipartFile file) throws IOException {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAccount userAccount = userAccountService.findUserAccount(userDetails.getUsername());
         byte[] image = file.getBytes();
