@@ -122,7 +122,7 @@ public class RequestController {
         userAccountService.createUserAccount(userAccount);
         request.dislike(userAccount);
         requestService.createRequest(request);
-        return new RedirectView("/**") ;
+        return new RedirectView("/") ;
     }
 
     /**
