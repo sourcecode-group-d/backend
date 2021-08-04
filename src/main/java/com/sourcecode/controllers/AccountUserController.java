@@ -169,6 +169,7 @@ public class AccountUserController {
     @PostMapping("/following/{id}")
     public RedirectView addFollowing(@PathVariable Long id) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         UserAccount userAccount = userAccountService.findUserAccount(id);
         UserAccount userAccountLoggedIn = userAccountService.findUserAccount(userDetails.getUsername());
         userAccountLoggedIn.addFollowing(userAccount);
@@ -207,6 +208,7 @@ public class AccountUserController {
             byte[] encodeCoverImage = java.util.Base64.getEncoder().encode(userAccount.getCoverImage());
             model.addAttribute("coverImage", new String(encodeCoverImage, "UTF-8"));
         }
+
         model.addAttribute("user", userAccount);
         model.addAttribute("followingNum", userAccount.getFollowing().size());
         model.addAttribute("followerNum", userAccount.getFollowers().size());
