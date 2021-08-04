@@ -22,6 +22,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-hateoas'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'io.github.cdimascio:java-dotenv:3.0.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
 }
 
 test {
